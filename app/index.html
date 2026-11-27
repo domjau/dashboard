@@ -11,12 +11,12 @@
 <header class="appbar">
   <div class="brand">
     <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><rect x="1" y="8" width="3" height="7" rx="1"/><rect x="6" y="4" width="3" height="11" rx="1"/><rect x="11" y="1" width="3" height="14" rx="1"/></svg>
-    <span class="brand-name">Enzyme Demand Planner</span>
+    <span class="brand-name"><span class="lbl-long">Enzyme </span>Demand Planner</span>
     <span class="crumb">Workspace › S&amp;OP › <b>Demand Plan – Nov 2026 cycle</b></span>
   </div>
   <div class="appbar-right">
     <span id="syncStatus" class="sync" title="Connection to Supabase"><i class="dot"></i><span>Connecting…</span></span>
-    <button id="refreshBtn" class="ghost-btn" title="Refresh data">⟳ Refresh</button>
+    <button id="refreshBtn" class="ghost-btn" title="Refresh data">⟳<span class="lbl-long"> Refresh</span></button>
     <label class="userpick">Signed in as
       <select id="userSelect"></select>
     </label>
@@ -32,6 +32,12 @@
   </nav>
 
   <main class="canvas">
+    <div class="mbar" id="mbar">
+      <button class="btn" id="filterToggle"><svg viewBox="0 0 24 24" width="14" height="14" aria-hidden="true"><path d="M3 5h18l-7 8v6l-4-2v-4z" fill="currentColor"/></svg> Filters <span id="filterCount" class="count"></span></button>
+      <span class="spacer"></span>
+      <div class="seg unit" title="Measure"><button data-v="kg" class="on">kg</button><button data-v="eur">EUR</button></div>
+    </div>
+    <div class="sheet-backdrop" id="sheetBackdrop"></div>
     <section class="slicers" id="slicers" aria-label="Filters">
       <!-- slicers rendered by app.js -->
     </section>
@@ -86,11 +92,12 @@
         <button class="btn" id="bulkBtn">± Bulk adjust</button>
         <button class="btn" id="exportBtn">⤓ Export CSV</button>
       </div>
+      <div class="mcards" id="wbCards"></div>
       <div class="gridcard">
         <div class="grid-scroll" id="gridScroll"><table class="wb" id="wbGrid"></table></div>
         <div class="grid-foot" id="gridFoot"></div>
       </div>
-      <p class="hint">Select a cell to see its detail. Double-click, press Enter or start typing to edit a forecast value. Enter saves to Supabase and Esc cancels. Arrow keys move between cells.</p>
+      <p class="hint desk-only">Select a cell to see its detail. Double-click, press Enter or start typing to edit a forecast value. Enter saves to Supabase and Esc cancels. Arrow keys move between cells.</p>
     </section>
 
     <!-- =================== COMMENTS & AUDIT =================== -->
@@ -143,12 +150,12 @@
     </section>
 
     <footer class="tabs" id="pageTabs">
-      <button data-page="overview" class="on">Overview</button>
-      <button data-page="writeback">Forecast writeback</button>
-      <button data-page="comments">Comments &amp; audit</button>
-      <button data-page="model">Data model</button>
+      <button data-page="overview" class="on"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg><span class="full">Overview</span><span class="short">Overview</span></button>
+      <button data-page="writeback"><svg viewBox="0 0 24 24"><path d="M3 4h18v3H3zM3 9h18v3H3zM3 14h18v3H3zM3 19h12v2H3z"/></svg><span class="full">Forecast writeback</span><span class="short">Writeback</span></button>
+      <button data-page="comments"><svg viewBox="0 0 24 24"><path d="M4 4h16v11H8l-4 4z"/></svg><span class="full">Comments &amp; audit</span><span class="short">Comments</span></button>
+      <button data-page="model"><svg viewBox="0 0 24 24"><path d="M4 5h6v5H4zM14 5h6v5h-6zM9 15h6v5H9zM7 10v3h10v-3h-2v1H9v-1z"/></svg><span class="full">Data model</span><span class="short">Model</span></button>
       <span class="spacer"></span>
-      <div class="seg unit" id="unitSeg" title="Measure"><button data-v="kg" class="on">kg</button><button data-v="eur">EUR</button></div>
+      <div class="seg unit desk-only" id="unitSeg" title="Measure"><button data-v="kg" class="on">kg</button><button data-v="eur">EUR</button></div>
     </footer>
   </main>
 

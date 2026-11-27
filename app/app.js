@@ -42,7 +42,7 @@ const S = {
   months: [], actMonths: [], fcMonths: [],
   filters: {}, unit: "kg", page: "overview",
   user: CFG.users[0], selId: null, editing: null,
-  feedStatus: "Open", feedCategory: null, gridMatrix: [],
+  feedStatus: "Open", feedCategory: null, gridMatrix: [], cardLimit: 20,
 };
 const DIMS = [
   ["region", "Region"], ["country", "Country"], ["industry", "Industry"],
@@ -55,6 +55,10 @@ const CATEGORIES = ["Tender pending", "Customer confirmed", "New business", "Los
 const CAT_CLASS = { "Tender pending": "t-tender", "Customer confirmed": "t-confirmed", "Lost business": "t-lost",
   "Regulatory": "t-reg", "New business": "t-new" };
 const COLORS = { actual: "#257de0", final: "#f47230", stat: "#8a8886", py: "#c2c2c2", bar: "#257de0", bar2: "#84b9f3" };
+
+// ------------------------------------------------------------------ Responsive
+const mq = window.matchMedia("(max-width: 860px)");
+const isMobile = () => mq.matches;
 
 // ------------------------------------------------------------------ Helpers
 const finalKg = r => (r.override_kg ?? r.consensus_kg);
@@ -179,13 +183,16 @@ const filtered = () => S.rows.filter(r => passes(r));
 let openSlicer = null;
 function renderSlicers() {
   const box = $("#slicers");
-  box.innerHTML = DIMS.map(([k, lbl]) => {
+  const active = DIMS.reduce((a, [k]) => a + (S.filters[k].size ? 1 : 0), 0);
+  $("#filterCount").textContent = active || "";
+  box.innerHTML = `<div class="sheet-h"><span class="grab"></span><b>Filters</b><button class="btn primary" id="filtersDone">Done</button></div>` + DIMS.map(([k, lbl]) => {
     const f = S.filters[k];
     const txt = f.size === 0 ? "All" : f.size === 1 ? [...f][0] : `${f.size} selected`;
     return `<div class="slicer" data-dim="${k}"><label>${lbl}</label><button class="slicer-btn ${f.size ? "active" : ""}" title="${esc(txt)}">${esc(txt)}</button></div>`;
   }).join("") + `<button class="linkbtn clear-all" id="clearAll">Clear all filters</button>`;
   $$(".slicer-btn", box).forEach(b => b.addEventListener("click", e => { e.stopPropagation(); toggleSlicer(b.parentElement.dataset.dim); }));
   $("#clearAll").addEventListener("click", () => { DIMS.forEach(([k]) => S.filters[k].clear()); onFilter(); });
+  $("#filtersDone").addEventListener("click", e => { e.stopPropagation(); closeFilterSheet(); });
 }
 function toggleSlicer(dim) {
   closeSlicer();
@@ -215,11 +222,15 @@ function toggleSlicer(dim) {
   }));
 }
 function closeSlicer() { $$(".slicer-pop").forEach(p => p.remove()); }
+function openFilterSheet() { $("#slicers").classList.add("open"); $("#sheetBackdrop").classList.add("open"); }
+function closeFilterSheet() { closeSlicer(); openSlicer = null; $("#slicers").classList.remove("open"); $("#sheetBackdrop").classList.remove("open"); renderSlicers(); }
 document.addEventListener("click", () => { if (openSlicer) { closeSlicer(); openSlicer = null; renderSlicers(); } });
 
 function onFilter(keepPop) {
+  S.cardLimit = 20;
   if (!keepPop) { closeSlicer(); openSlicer = null; renderSlicers(); }
   else { // update button labels without closing
+    $("#filterCount").textContent = DIMS.reduce((a, [k]) => a + (S.filters[k].size ? 1 : 0), 0) || "";
     DIMS.forEach(([k]) => { const b = $(`.slicer[data-dim="${k}"] .slicer-btn`); const f = S.filters[k];
       b.textContent = f.size === 0 ? "All" : f.size === 1 ? [...f][0] : `${f.size} selected`; b.classList.toggle("active", f.size > 0); });
   }
@@ -288,8 +299,8 @@ function renderOverview() {
   const fcStart = labels[S.actMonths.length];
   chart("chTrend").setOption({
     animationDuration: 300,
-    grid: { left: 56, right: 64, top: 34, bottom: 26 },
-    legend: { top: 0, left: 0, itemWidth: 16, itemHeight: 3, icon: "rect", textStyle: { color: "#605e5c", fontSize: 12 } },
+    grid: { left: 8, right: isMobile() ? 56 : 64, top: isMobile() ? 56 : 34, bottom: 4, containLabel: true },
+    legend: { top: 0, left: 0, itemGap: isMobile() ? 8 : 10, itemWidth: 16, itemHeight: 3, icon: "rect", textStyle: { color: "#605e5c", fontSize: 12 } },
     tooltip: { ...tipBase, trigger: "axis", axisPointer: { type: "line", lineStyle: { color: "#8a8886" } },
       valueFormatter: v => (v == null ? "–" : fmtU(v)) },
     xAxis: { type: "category", data: labels, boundaryGap: false, ...axisCommon, splitLine: { show: false } },
@@ -306,7 +317,7 @@ function renderOverview() {
   }, true);
 
   // ---- Bridge (waterfall)
-  const steps = [["Statistical", stat, "total"], ["Market intel", cons - stat, "delta"], ["Planner writeback", final - cons, "delta"], ["Final", final, "total"]];
+  const steps = [["Statistical", stat, "total"], ["Market\nintel", cons - stat, "delta"], ["Planner\nwriteback", final - cons, "delta"], ["Final", final, "total"]];
   let run = 0; const base = [], val = [];
   const lo = Math.min(stat, cons, final), hi = Math.max(stat, cons, final);
   const span = Math.max(hi - lo, hi * 0.01);
@@ -314,9 +325,9 @@ function renderOverview() {
   steps.forEach(([, v, t]) => { if (t === "total") { base.push(0); val.push(v); run = v; } else { base.push(v >= 0 ? run : run + v); val.push(Math.abs(v)); run += v; } });
   chart("chBridge").setOption({
     animationDuration: 300,
-    grid: { left: 56, right: 12, top: 22, bottom: 26 },
+    grid: { left: 8, right: 12, top: 22, bottom: 4, containLabel: true },
     tooltip: { ...tipBase, trigger: "axis", axisPointer: { type: "shadow", shadowStyle: { color: "rgba(0,0,0,.03)" } },
-      formatter: ps => { const i = ps[0].dataIndex; const [nm, v, t] = steps[i]; return `<b>${nm}</b><br>${t === "delta" ? (v >= 0 ? "+" : "−") + fmtU(Math.abs(v)) : fmtU(v)}`; } },
+      formatter: ps => { const i = ps[0].dataIndex; const [nm, v, t] = steps[i]; return `<b>${nm.replace("\n", " ")}</b><br>${t === "delta" ? (v >= 0 ? "+" : "−") + fmtU(Math.abs(v)) : fmtU(v)}`; } },
     xAxis: { type: "category", data: steps.map(s => s[0]), ...axisCommon, axisLabel: { ...axisCommon.axisLabel, interval: 0 }, splitLine: { show: false } },
     yAxis: { type: "value", ...axisCommon, axisLine: { show: false }, min: yMin, max: hi + span * 0.6, axisLabel: { ...axisCommon.axisLabel, formatter: v => fmtC(v) } },
     series: [
@@ -374,7 +385,7 @@ function barBy(id, dim, fc) {
   c.setOption({
     animationDuration: 300,
     grid: { left: 8, right: 54, top: 4, bottom: 4, containLabel: true },
-    tooltip: { ...tipBase, trigger: "item", formatter: p => `<b>${esc(p.name)}</b><br>${fmtU(p.value)}<br><span style="color:#8a8886">Click to ${sel.has(p.name) && sel.size === 1 ? "clear filter" : "filter"}</span>` },
+    tooltip: { ...tipBase, trigger: "item", confine: true, formatter: p => `<b>${esc(p.name)}</b><br>${fmtU(p.value)}<br><span style="color:#8a8886">Click to ${sel.has(p.name) && sel.size === 1 ? "clear filter" : "filter"}</span>` },
     xAxis: { type: "value", show: false },
     yAxis: { type: "category", data: data.map(d => d[0]), ...axisCommon, axisLine: { show: false }, splitLine: { show: false } },
     series: [{ type: "bar", barWidth: "62%", cursor: "pointer",
@@ -410,8 +421,37 @@ function cellHtml(r, ri, ci) {
   const tip = isAct ? `Actual · forecast was ${fmtN(toUnit(r.consensus_kg, r))}` : r.override_kg != null ? `Override by ${r.updated_by} · consensus ${fmtN(toUnit(r.consensus_kg, r))}` : `Stat ${fmtN(toUnit(r.stat_forecast_kg, r))} · consensus`;
   return `<td class="${cls}" data-id="${r.id}" data-r="${ri}" data-c="${ci}" title="${esc(tip)}">${fmtN(v)}</td>`;
 }
+function mcellHtml(r) {
+  const isAct = r.period_type === "Actual";
+  const v = isAct ? toUnit(r.actual_kg, r) : toUnit(finalKg(r), r);
+  const cls = ["mcell", isAct ? "act" : "", r.override_kg != null && !isAct ? "ovr" : "", (S.cByPlan.get(r.id) || []).some(c => c.status === "Open") ? "cm" : "", S.selId === r.id ? "sel" : ""].join(" ");
+  return `<button class="${cls}" data-id="${r.id}"><span class="m">${mLabel(r.period)}${isAct ? " · A" : ""}</span><span class="v">${fmtC(v).replace(" kg", "")}</span></button>`;
+}
+function renderCards() {
+  const showAct = $("#showActuals").checked;
+  const cols = [...(showAct ? S.actMonths : []), ...S.fcMonths];
+  const list = gridSeries();
+  const shown = list.slice(0, S.cardLimit);
+  const box = $("#wbCards");
+  const grand = sum(list, s => s._tot);
+  box.innerHTML = `<div class="mc-summary">${list.length} series · total next 12M <b>${fmtC(grand)}</b> · tap a month to edit or comment</div>` +
+    shown.map(s => {
+      const m = s.meta;
+      const st = sum(Object.values(s.cells).filter(r => r.period_type === "Forecast"), r => toUnit(r.stat_forecast_kg, r));
+      const d = st ? s._tot / st - 1 : null;
+      return `<div class="mcard"><div class="mc-h"><div class="mc-name"><span class="mc-code">${esc(m.material_code)} · ${esc(m.enzyme_family)}</span>${esc(m.material_name)}</div>
+        <div class="mc-tot">Next 12M<b>${fmtC(s._tot)}</b><span class="${d == null ? "" : d >= 0 ? "up" : "down"}">${pct(d)}</span> vs stat</div></div>
+        <div class="mc-sub">${esc(m.customer)} · ${esc(m.country)} · ${esc(m.industry)}</div>
+        <div class="mc-strip">${cols.map(p => s.cells[p] ? mcellHtml(s.cells[p]) : "").join("")}</div></div>`;
+    }).join("") +
+    (list.length > shown.length ? `<button class="btn mc-more" id="mcMore">Show ${Math.min(20, list.length - shown.length)} more (${list.length - shown.length} remaining)</button>` : "") +
+    (!list.length ? `<div class="empty">No series match the current filters.</div>` : "");
+  if (showAct) $$(".mc-strip", box).forEach(st => { const f = st.querySelector(".mcell:not(.act)"); if (f) st.scrollLeft = f.offsetLeft - st.offsetLeft - 90; });
+  $("#mcMore")?.addEventListener("click", () => { S.cardLimit += 20; const y = window.scrollY; renderCards(); window.scrollTo(0, y); });
+}
 function renderGrid() {
   if (S.editing) return; // don't clobber an active edit
+  if (isMobile()) { renderCards(); return; }
   const showAct = $("#showActuals").checked;
   const cols = [...(showAct ? S.actMonths : []), ...S.fcMonths];
   const list = gridSeries();
@@ -442,6 +482,8 @@ function renderGrid() {
   $("#gridFoot").innerHTML = `<span>${list.length} series · ${allCells.length.toLocaleString()} editable cells</span><span>${allCells.filter(r => r.override_kg != null).length} overridden</span><span>${allCells.filter(r => openCount(r.id)).length} with open comments</span><span style="margin-left:auto">Writing to <code>${esc(new URL(CFG.supabaseUrl).host)}</code> as <b>${esc(S.user)}</b></span>`;
 }
 function refreshCell(id) {
+  const mc = $(`#wbCards .mcell[data-id="${id}"]`);
+  if (mc) { const t = document.createElement("div"); t.innerHTML = mcellHtml(S.byId.get(id)); mc.replaceWith(t.firstChild); }
   const td = $(`#wbGrid td[data-id="${id}"]`);
   if (!td) return;
   const tmp = document.createElement("tr");
@@ -449,10 +491,13 @@ function refreshCell(id) {
   td.replaceWith(tmp.firstChild);
 }
 function selectCell(id, { open = true, scroll = false } = {}) {
-  $$("#wbGrid td.sel").forEach(t => t.classList.remove("sel"));
+  $$("#wbGrid td.sel, #wbCards .mcell.sel").forEach(t => t.classList.remove("sel"));
   S.selId = id;
+  $(`#wbCards .mcell[data-id="${id}"]`)?.classList.add("sel");
   const td = $(`#wbGrid td[data-id="${id}"]`);
   if (td) { td.classList.add("sel"); if (scroll) td.scrollIntoView({ block: "center", inline: "center" }); }
+  const mc = $(`#wbCards .mcell[data-id="${id}"]`);
+  if (mc && scroll) mc.scrollIntoView({ block: "center", inline: "center" });
   if (open) openDrawer(id);
 }
 function startEdit(td, initial) {
@@ -505,7 +550,7 @@ async function commitValue(r, raw, note = null) {
     const res = await api.rpc("writeback_forecast", { p_id: r.id, p_override_kg: newKg, p_user: S.user, p_expected_version: r.version, p_note: note });
     Object.assign(r, res);
     refreshCell(r.id);
-    const ntd = $(`#wbGrid td[data-id="${r.id}"]`); if (ntd) ntd.classList.add("flash");
+    const ntd = $(`#wbGrid td[data-id="${r.id}"], #wbCards .mcell[data-id="${r.id}"]`); if (ntd) ntd.classList.add("flash");
     toast(newKg == null ? `Override cleared · ${esc(r.material_name)} ${mLabel(r.period)}` : `Saved <b>${fmtN(newKg)} kg</b> · ${esc(r.material_name)} · ${esc(r.customer)} · ${mLabel(r.period)}`);
     updateGridTotals();
     await poll();
@@ -516,7 +561,7 @@ async function commitValue(r, raw, note = null) {
   }
   selectCell(r.id, { open: $("#drawer").classList.contains("open") });
 }
-function updateGridTotals() { if (!S.editing) { const sc = $("#gridScroll"); const t = sc.scrollTop, l = sc.scrollLeft; renderGrid(); sc.scrollTop = t; sc.scrollLeft = l; } }
+function updateGridTotals() { if (isMobile()) { const y = window.scrollY; const strips = $$(".mc-strip").map(x => x.scrollLeft); renderCards(); $$(".mc-strip").forEach((x, i) => (x.scrollLeft = strips[i] ?? x.scrollLeft)); window.scrollTo(0, y); return; } if (!S.editing) { const sc = $("#gridScroll"); const t = sc.scrollTop, l = sc.scrollLeft; renderGrid(); sc.scrollTop = t; sc.scrollLeft = l; } }
 function moveSel(dr, dc) {
   const td = $(`#wbGrid td[data-id="${S.selId}"]`);
   if (!td) return;
@@ -530,6 +575,7 @@ function moveSel(dr, dc) {
 function wireGrid() {
   const g = $("#wbGrid");
   g.addEventListener("click", e => { const td = e.target.closest("td.v[data-id]"); if (td && !S.editing) selectCell(+td.dataset.id); });
+  $("#wbCards").addEventListener("click", e => { const b = e.target.closest(".mcell[data-id]"); if (b) selectCell(+b.dataset.id); });
   g.addEventListener("dblclick", e => { const td = e.target.closest("td.v[data-id]"); if (td && !S.editing) startEdit(td); });
   document.addEventListener("keydown", e => {
     if (S.page !== "writeback" || S.editing || !S.selId) return;
@@ -542,7 +588,7 @@ function wireGrid() {
     else if (/^[0-9+\-]$/.test(e.key)) { e.preventDefault(); startEdit(td, e.key); }
     else if (e.key === "Delete" || e.key === "Backspace") { e.preventDefault(); const r = S.byId.get(S.selId); if (r.override_kg != null) commitValue(r, ""); }
   });
-  let t; $("#gridSearch").addEventListener("input", () => { clearTimeout(t); t = setTimeout(renderGrid, 180); });
+  let t; $("#gridSearch").addEventListener("input", () => { clearTimeout(t); t = setTimeout(() => { S.cardLimit = 20; renderGrid(); }, 180); });
   $("#showActuals").addEventListener("change", renderGrid);
   $("#onlyChanged").addEventListener("change", renderGrid);
   $("#exportBtn").addEventListener("click", exportCsv);
@@ -641,6 +687,7 @@ function goToCell(id) {
   if (!passes(r)) DIMS.forEach(([k]) => S.filters[k].clear());
   $("#gridSearch").value = ""; $("#onlyChanged").checked = false;
   if (r.period_type === "Actual") $("#showActuals").checked = true;
+  if (isMobile()) { $("#gridSearch").value = r.material_code; S.cardLimit = 20; }
   showPage("writeback");
   renderSlicers();
   selectCell(id, { scroll: true });
@@ -735,6 +782,7 @@ function exportCsv() {
 
 // ------------------------------------------------------------------ Pages
 function showPage(p) {
+  if (S.page !== p && isMobile()) window.scrollTo(0, 0);
   S.page = p;
   $$(".page").forEach(x => x.classList.toggle("active", x.id === "page-" + p));
   $$(".navbtn").forEach(x => x.classList.toggle("active", x.dataset.page === p));
@@ -756,11 +804,15 @@ function wire() {
   sel.value = S.user;
   sel.addEventListener("change", () => { S.user = sel.value; store("dp.user", S.user); toast(`Now acting as <b>${esc(S.user)}</b>`, "info"); if (S.page === "writeback") renderGrid(); });
   $$(".navbtn, #pageTabs > button").forEach(b => b.addEventListener("click", () => showPage(b.dataset.page)));
-  $$("#unitSeg button").forEach(b => b.addEventListener("click", () => { S.unit = b.dataset.v; $$("#unitSeg button").forEach(x => x.classList.toggle("on", x === b)); renderPage(); }));
+  $$(".seg.unit button").forEach(b => b.addEventListener("click", () => { S.unit = b.dataset.v; $$(".seg.unit button").forEach(x => x.classList.toggle("on", x.dataset.v === S.unit)); renderPage(); }));
+  $("#filterToggle").addEventListener("click", e => { e.stopPropagation(); openFilterSheet(); });
+  $("#sheetBackdrop").addEventListener("click", closeFilterSheet);
+  $("#slicers").addEventListener("click", e => e.stopPropagation());
+  mq.addEventListener("change", () => { closeFilterSheet(); renderPage(); setTimeout(() => Object.values(charts).forEach(c => c.resize()), 60); });
   $$("#commentStatusSeg button").forEach(b => b.addEventListener("click", () => { S.feedStatus = b.dataset.v; $$("#commentStatusSeg button").forEach(x => x.classList.toggle("on", x === b)); renderComments(); }));
   $("#drawerClose").addEventListener("click", closeDrawer);
   $("#refreshBtn").addEventListener("click", async () => { $("#loading").classList.remove("hide"); try { await loadAll(); renderPage(); toast("Data refreshed from Supabase", "info"); } catch (e) { toast("Refresh failed: " + esc(e.message), "err"); } $("#loading").classList.add("hide"); });
-  document.addEventListener("keydown", e => { if (e.key === "Escape" && !S.editing) { if (!$("#bulkModal").hidden) $("#bulkModal").hidden = true; else closeDrawer(); } });
+  document.addEventListener("keydown", e => { if (e.key === "Escape" && !S.editing) { if (!$("#bulkModal").hidden) $("#bulkModal").hidden = true; else if ($("#slicers").classList.contains("open")) closeFilterSheet(); else closeDrawer(); } });
   wireGrid();
 }
 async function boot() {

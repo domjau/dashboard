@@ -5,6 +5,11 @@ A Power BI-style S&OP demand-planning report for an enzymes business. Planners c
 ![Overview](docs/overview.png)
 ![Writeback](docs/writeback.png)
 
+<p>
+<img src="docs/mobile-overview.png" width="260" alt="Mobile overview">
+<img src="docs/mobile-writeback.png" width="260" alt="Mobile writeback">
+</p>
+
 ## What it shows
 
 | Page | What's on it |
@@ -16,6 +21,15 @@ A Power BI-style S&OP demand-planning report for an enzymes business. Planners c
 | **Data model** | How the writeback architecture works, for the data team |
 
 Slicers: Region, Country, Industry, Enzyme family, Material, Customer, Demand planner. You can switch every measure between **kg** and **EUR**.
+
+### Mobile
+
+Below 860px wide, the same app switches to a phone layout that scrolls like an app:
+- Compact top bar, with a sticky **Filters** button (showing how many filters are active) and the kg/EUR toggle
+- Filters open as a **bottom sheet** with large tap targets
+- A **fixed bottom tab bar** for Overview, Writeback, Comments and Model
+- Writeback becomes **cards**, one per material, customer and country. Each card has a swipeable strip of months; actuals are greyed, overrides highlighted and comments flagged. Tap a month to open a **full-screen sheet** where you can override, comment and see the history. Cards load 20 at a time ("Show more")
+- Wide tables and the growth matrix scroll sideways inside their cards. The page itself never scrolls sideways
 
 ## Sample data (fictional)
 

@@ -1,4 +1,4 @@
-/* Enzyme Demand Planner – report + writeback client for Supabase (PostgREST). */
+/* Seafood Demand Planner – report + writeback client for Supabase (PostgREST). */
 (() => {
 "use strict";
 const CFG = window.APP_CONFIG;
@@ -45,15 +45,15 @@ const S = {
   feedStatus: "Open", feedCategory: null, gridMatrix: [], cardLimit: 20,
 };
 const DIMS = [
-  ["region", "Region"], ["country", "Country"], ["industry", "Industry"],
-  ["enzyme_family", "Enzyme family"], ["material_name", "Material"],
+  ["region", "Region"], ["country", "Country"], ["channel", "Channel"],
+  ["species", "Species"], ["product_format", "Format"], ["product_name", "Product"],
   ["customer", "Customer"], ["demand_planner", "Demand planner"],
 ];
 DIMS.forEach(([k]) => (S.filters[k] = new Set()));
 const CATEGORIES = ["Tender pending", "Customer confirmed", "New business", "Lost business", "Price change",
-  "Promotion / campaign", "Supply constraint", "Regulatory", "Phasing / timing", "Other"];
+  "Promotion / campaign", "Supply constraint", "Catch / quota", "Regulatory", "Phasing / timing", "Other"];
 const CAT_CLASS = { "Tender pending": "t-tender", "Customer confirmed": "t-confirmed", "Lost business": "t-lost",
-  "Regulatory": "t-reg", "New business": "t-new" };
+  "Regulatory": "t-reg", "Catch / quota": "t-reg", "New business": "t-new" };
 const COLORS = { actual: "#257de0", final: "#f47230", stat: "#8a8886", py: "#c2c2c2", bar: "#257de0", bar2: "#84b9f3" };
 
 // ------------------------------------------------------------------ Responsive
@@ -63,7 +63,7 @@ const isMobile = () => mq.matches;
 // ------------------------------------------------------------------ Helpers
 const finalKg = r => (r.override_kg ?? r.consensus_kg);
 const toUnit = (kg, r) => (S.unit === "eur" ? kg * r.price_eur_per_kg : kg);
-const seriesKey = r => `${r.material_code}|${r.customer}|${r.country}`;
+const seriesKey = r => `${r.product_code}|${r.customer}|${r.country}`;
 const nf0 = new Intl.NumberFormat("en-GB", { maximumFractionDigits: 0 });
 const fmtN = v => (v == null || isNaN(v) ? "–" : nf0.format(v));
 function fmtC(v, unit = S.unit) {
@@ -321,7 +321,9 @@ function renderOverview() {
   let run = 0; const base = [], val = [];
   const lo = Math.min(stat, cons, final), hi = Math.max(stat, cons, final);
   const span = Math.max(hi - lo, hi * 0.01);
-  const yMin = Math.max(0, lo - span * 2.5);
+  const step = Math.pow(10, Math.floor(Math.log10(span * 4)));
+  const yMin = Math.max(0, Math.floor((lo - span * 2.5) / step) * step);
+  const yMax = Math.ceil((hi + span * 0.6) / step) * step;
   steps.forEach(([, v, t]) => { if (t === "total") { base.push(0); val.push(v); run = v; } else { base.push(v >= 0 ? run : run + v); val.push(Math.abs(v)); run += v; } });
   chart("chBridge").setOption({
     animationDuration: 300,
@@ -329,7 +331,7 @@ function renderOverview() {
     tooltip: { ...tipBase, trigger: "axis", axisPointer: { type: "shadow", shadowStyle: { color: "rgba(0,0,0,.03)" } },
       formatter: ps => { const i = ps[0].dataIndex; const [nm, v, t] = steps[i]; return `<b>${nm.replace("\n", " ")}</b><br>${t === "delta" ? (v >= 0 ? "+" : "−") + fmtU(Math.abs(v)) : fmtU(v)}`; } },
     xAxis: { type: "category", data: steps.map(s => s[0]), ...axisCommon, axisLabel: { ...axisCommon.axisLabel, interval: 0 }, splitLine: { show: false } },
-    yAxis: { type: "value", ...axisCommon, axisLine: { show: false }, min: yMin, max: hi + span * 0.6, axisLabel: { ...axisCommon.axisLabel, formatter: v => fmtC(v) } },
+    yAxis: { type: "value", ...axisCommon, axisLine: { show: false }, min: yMin, max: yMax, axisLabel: { ...axisCommon.axisLabel, formatter: v => fmtC(v) } },
     series: [
       { type: "bar", stack: "w", data: base, itemStyle: { color: "transparent" }, silent: true },
       { type: "bar", stack: "w", data: val.map((v, i) => ({ value: v, itemStyle: { color: steps[i][2] === "total" ? COLORS.bar : steps[i][1] >= 0 ? "#00b894" : "#ec4647", borderRadius: [3, 3, 0, 0] } })),
@@ -337,14 +339,14 @@ function renderOverview() {
     ],
   }, true);
 
-  // ---- Region / Industry bars (cross-filter)
+  // ---- Region / Channel bars (cross-filter)
   barBy("chRegion", "region", fc);
-  barBy("chIndustry", "industry", fc);
+  barBy("chChannel", "channel", fc);
 
   // ---- Matrix (growth vs PY)
   const regs = [...new Set(rows.map(r => r.region))].sort();
-  const inds = [...new Set(rows.map(r => r.industry))].sort();
-  const cell = (rg, ind) => { const rs = fc.filter(r => r.region === rg && r.industry === ind && r.prior_year_kg > 0);
+  const inds = [...new Set(rows.map(r => r.channel))].sort();
+  const cell = (rg, ind) => { const rs = fc.filter(r => r.region === rg && r.channel === ind && r.prior_year_kg > 0);
     if (!rs.length) return null; const py = sum(rs, r => toUnit(r.prior_year_kg, r)); return py ? sum(rs, r => toUnit(finalKg(r), r)) / py - 1 : null; };
   const colorFor = v => { const t = Math.max(-1, Math.min(1, v / 0.15));
     const mix = (a, b, k) => a.map((x, i) => Math.round(x + (b[i] - x) * k));
@@ -359,13 +361,13 @@ function renderOverview() {
   // ---- Top customers
   const cust = new Map();
   for (const r of fc) {
-    const c = cust.get(r.customer) || { name: r.customer, ind: r.industry, fin: 0, py: 0, pyF: 0, regions: new Set(), ids: [] };
+    const c = cust.get(r.customer) || { name: r.customer, ind: r.channel, fin: 0, py: 0, pyF: 0, regions: new Set(), ids: [] };
     c.fin += toUnit(finalKg(r), r); if (r.prior_year_kg > 0) { c.py += toUnit(r.prior_year_kg, r); c.pyF += toUnit(finalKg(r), r); }
     c.regions.add(r.region); c.ids.push(r.id); cust.set(r.customer, c);
   }
   const top = [...cust.values()].sort((a, b) => b.fin - a.fin).slice(0, 12);
   const max = top[0]?.fin || 1;
-  $("#topCustomers").innerHTML = `<table class="t"><thead><tr><th>Customer</th><th>Industry</th><th>Regions</th><th class="num">Final forecast</th><th class="num">vs PY</th><th class="num">Open comments</th></tr></thead><tbody>
+  $("#topCustomers").innerHTML = `<table class="t"><thead><tr><th>Customer</th><th>Channel</th><th>Regions</th><th class="num">Final forecast</th><th class="num">vs PY</th><th class="num">Open comments</th></tr></thead><tbody>
     ${top.map(c => { const g = c.py ? c.pyF / c.py - 1 : null; const oc = c.ids.reduce((a, id) => a + openCount(id), 0);
       return `<tr><td>${esc(c.name)}</td><td>${esc(c.ind)}</td><td>${c.regions.size}</td>
       <td class="num databar"><i style="width:${(c.fin / max * 100).toFixed(1)}%"></i><span>${fmtC(c.fin)}</span></td>
@@ -404,7 +406,7 @@ function gridSeries() {
   for (const s of S.series.values()) {
     if (!passes(s.meta)) continue;
     const m = s.meta;
-    if (q && ![m.material_name, m.material_code, m.customer, m.country, m.industry, m.enzyme_family].some(v => v.toLowerCase().includes(q))) continue;
+    if (q && ![m.product_name, m.product_code, m.customer, m.country, m.channel, m.species, m.product_format].some(v => v.toLowerCase().includes(q))) continue;
     const cells = Object.values(s.cells);
     if (only && !cells.some(r => r.override_kg != null || openCount(r.id) || (S.cByPlan.get(r.id) || []).length)) continue;
     list.push(s);
@@ -439,9 +441,9 @@ function renderCards() {
       const m = s.meta;
       const st = sum(Object.values(s.cells).filter(r => r.period_type === "Forecast"), r => toUnit(r.stat_forecast_kg, r));
       const d = st ? s._tot / st - 1 : null;
-      return `<div class="mcard"><div class="mc-h"><div class="mc-name"><span class="mc-code">${esc(m.material_code)} · ${esc(m.enzyme_family)}</span>${esc(m.material_name)}</div>
+      return `<div class="mcard"><div class="mc-h"><div class="mc-name"><span class="mc-code">${esc(m.product_code)} · ${esc(m.species)} · ${esc(m.product_format)}</span>${esc(m.product_name)}</div>
         <div class="mc-tot">Next 12M<b>${fmtC(s._tot)}</b><span class="${d == null ? "" : d >= 0 ? "up" : "down"}">${pct(d)}</span> vs stat</div></div>
-        <div class="mc-sub">${esc(m.customer)} · ${esc(m.country)} · ${esc(m.industry)}</div>
+        <div class="mc-sub">${esc(m.customer)} · ${esc(m.country)} · ${esc(m.channel)}</div>
         <div class="mc-strip">${cols.map(p => s.cells[p] ? mcellHtml(s.cells[p]) : "").join("")}</div></div>`;
     }).join("") +
     (list.length > shown.length ? `<button class="btn mc-more" id="mcMore">Show ${Math.min(20, list.length - shown.length)} more (${list.length - shown.length} remaining)</button>` : "") +
@@ -460,15 +462,15 @@ function renderGrid() {
   const head = `<thead>
     <tr class="grp"><th class="stick c0 dim"></th><th class="stick c1 dim"></th><th class="stick c2 dim"></th>
       ${nAct ? `<th colspan="${nAct}">Actuals (locked)</th>` : ""}<th colspan="${S.fcMonths.length}">Final forecast (${S.unit === "eur" ? "EUR" : "kg"}) · editable</th><th colspan="2">Next 12M</th></tr>
-    <tr class="mon"><th class="stick c0 dim">Material</th><th class="stick c1 dim">Customer</th><th class="stick c2 dim">Country</th>
+    <tr class="mon"><th class="stick c0 dim">Product</th><th class="stick c1 dim">Customer</th><th class="stick c2 dim">Country</th>
       ${cols.map(p => `<th>${mLabel(p)}</th>`).join("")}<th>Total</th><th>vs stat</th></tr></thead>`;
   const body = list.map((s, ri) => {
     const m = s.meta;
     const fcs = Object.values(s.cells).filter(r => r.period_type === "Forecast");
     const st = sum(fcs, r => toUnit(r.stat_forecast_kg, r));
     const d = st ? s._tot / st - 1 : null;
-    return `<tr><td class="stick c0 dimc" title="${esc(m.material_code + " " + m.material_name + " · " + m.enzyme_family)}"><span class="code">${esc(m.material_code)}</span>${esc(m.material_name)}</td>
-      <td class="stick c1 dimc" title="${esc(m.customer + " · " + m.industry)}">${esc(m.customer)}</td>
+    return `<tr><td class="stick c0 dimc" title="${esc(m.product_code + " " + m.product_name + " · " + m.species + " · " + m.product_format)}"><span class="code">${esc(m.product_code)}</span>${esc(m.product_name)}</td>
+      <td class="stick c1 dimc" title="${esc(m.customer + " · " + m.channel)}">${esc(m.customer)}</td>
       <td class="stick c2 dimc" title="${esc(m.region)}">${esc(m.country)}</td>
       ${cols.map((p, ci) => cellHtml(s.cells[p], ri, ci)).join("")}
       <td class="tot">${fmtN(s._tot)}</td><td class="dlt ${d == null ? "" : d >= 0 ? "up" : "down"}">${pct(d)}</td></tr>`;
@@ -551,7 +553,7 @@ async function commitValue(r, raw, note = null) {
     Object.assign(r, res);
     refreshCell(r.id);
     const ntd = $(`#wbGrid td[data-id="${r.id}"], #wbCards .mcell[data-id="${r.id}"]`); if (ntd) ntd.classList.add("flash");
-    toast(newKg == null ? `Override cleared · ${esc(r.material_name)} ${mLabel(r.period)}` : `Saved <b>${fmtN(newKg)} kg</b> · ${esc(r.material_name)} · ${esc(r.customer)} · ${mLabel(r.period)}`);
+    toast(newKg == null ? `Override cleared · ${esc(r.product_name)} ${mLabel(r.period)}` : `Saved <b>${fmtN(newKg)} kg</b> · ${esc(r.product_name)} · ${esc(r.customer)} · ${mLabel(r.period)}`);
     updateGridTotals();
     await poll();
   } catch (e) {
@@ -601,9 +603,9 @@ function openDrawer(id) {
   if (!r) return;
   const d = $("#drawer");
   d.classList.add("open"); d.setAttribute("aria-hidden", "false");
-  $("#dEyebrow").textContent = `${r.period_type} · ${mLabel(r.period)} · ${r.material_code}`;
-  $("#dTitle").textContent = r.material_name;
-  $("#dSub").textContent = `${r.customer} · ${r.country} (${r.region}) · ${r.industry}`;
+  $("#dEyebrow").textContent = `${r.period_type} · ${mLabel(r.period)} · ${r.product_code}`;
+  $("#dTitle").textContent = r.product_name;
+  $("#dSub").textContent = `${r.customer} · ${r.country} (${r.region}) · ${r.channel}`;
   const isFc = r.period_type === "Forecast";
   const cm = (S.cByPlan.get(id) || []).slice().sort((a, b) => b.created_at.localeCompare(a.created_at));
   const hist = S.audit.filter(a => a.plan_id === id);
@@ -628,7 +630,7 @@ function openDrawer(id) {
       : `<p class="sub">Actual months are locked and read from the ERP.</p>`}
     <h4>Add comment</h4>
     <div class="chips" id="dChips">${CATEGORIES.map((c, i) => `<button class="chip ${i === 0 ? "on" : ""}" data-c="${esc(c)}">${esc(c)}</button>`).join("")}</div>
-    <textarea id="dText" placeholder="What should the S&OP team know? e.g. Tender result expected 15 Jan, upside 20 t"></textarea>
+    <textarea id="dText" placeholder="What should the S&OP team know? e.g. Christmas programme confirmed, +2 t smoked salmon in Dec"></textarea>
     <div class="btnrow" style="margin-top:6px"><button class="btn primary" id="dPost">Post comment</button></div>
     <h4>Comments on this cell (${cm.length})</h4>
     ${cm.length ? cm.map(c => commentHtml(c)).join("") : `<div class="empty">No comments yet.</div>`}
@@ -687,7 +689,7 @@ function goToCell(id) {
   if (!passes(r)) DIMS.forEach(([k]) => S.filters[k].clear());
   $("#gridSearch").value = ""; $("#onlyChanged").checked = false;
   if (r.period_type === "Actual") $("#showActuals").checked = true;
-  if (isMobile()) { $("#gridSearch").value = r.material_code; S.cardLimit = 20; }
+  if (isMobile()) { $("#gridSearch").value = r.product_code; S.cardLimit = 20; }
   showPage("writeback");
   renderSlicers();
   selectCell(id, { scroll: true });
@@ -697,7 +699,7 @@ function goToCell(id) {
 function renderFeed(el, list) {
   el.innerHTML = list.length ? list.map(c => { const r = S.byId.get(c.plan_id); if (!r) return "";
     return `<div class="fitem" data-goto="${r.id}"><div class="top"><span class="tag ${c.status === "Resolved" ? "resolved" : CAT_CLASS[c.category] || ""}">${esc(c.category)}</span><span>${esc(c.author)} · ${when(c.created_at)}</span>${c.status === "Resolved" ? `<span class="status-pill">Resolved</span>` : ""}</div>
-      <div class="body">${esc(c.body)}</div><div class="ctx">${esc(r.material_name)} · ${esc(r.customer)} · ${esc(r.country)} · <b>${mLabel(r.period)}</b> · ${fmtN(finalKg(r))} kg</div></div>`; }).join("")
+      <div class="body">${esc(c.body)}</div><div class="ctx">${esc(r.product_name)} · ${esc(r.customer)} · ${esc(r.country)} · <b>${mLabel(r.period)}</b> · ${fmtN(finalKg(r))} kg</div></div>`; }).join("")
     : `<div class="empty">No comments match the current filters.</div>`;
   $$("[data-goto]", el).forEach(x => x.addEventListener("click", () => goToCell(+x.dataset.goto)));
 }
@@ -722,10 +724,10 @@ function renderComments() {
   if (S.feedCategory) list = list.filter(x => x.category === S.feedCategory);
   renderFeed($("#commentFeed"), list);
   const aud = S.audit.filter(a => ids.has(a.plan_id)).slice(0, 300);
-  $("#auditTable").innerHTML = `<table class="t"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Material</th><th>Customer</th><th>Country</th><th>Month</th><th class="num">Old kg</th><th class="num">New kg</th><th>Detail</th></tr></thead><tbody>
+  $("#auditTable").innerHTML = `<table class="t"><thead><tr><th>When</th><th>User</th><th>Action</th><th>Product</th><th>Customer</th><th>Country</th><th>Month</th><th class="num">Old kg</th><th class="num">New kg</th><th>Detail</th></tr></thead><tbody>
     ${aud.map(a => { const r = S.byId.get(a.plan_id); if (!r) return ""; return `<tr data-goto="${r.id}" style="cursor:pointer">
       <td title="${esc(new Date(a.created_at).toLocaleString("en-GB"))}">${when(a.created_at)}</td><td>${esc(a.actor)}</td><td>${esc(a.action.replace("_", " ").toLowerCase())}</td>
-      <td>${esc(r.material_name)}</td><td>${esc(r.customer)}</td><td>${esc(r.country)}</td><td>${mLabel(r.period)}</td>
+      <td>${esc(r.product_name)}</td><td>${esc(r.customer)}</td><td>${esc(r.country)}</td><td>${mLabel(r.period)}</td>
       <td class="num">${a.old_kg == null ? "" : fmtN(a.old_kg)}</td><td class="num">${a.new_kg == null ? "" : fmtN(a.new_kg)}</td><td style="max-width:320px;overflow:hidden;text-overflow:ellipsis" title="${esc(a.detail)}">${esc(a.detail)}</td></tr>`; }).join("")}
     </tbody></table>`;
   $$("#auditTable [data-goto]").forEach(x => x.addEventListener("click", () => goToCell(+x.dataset.goto)));
@@ -766,7 +768,7 @@ function bulkIds(list) {
 }
 function exportCsv() {
   const list = gridSeries();
-  const cols = ["material_code", "material_name", "enzyme_family", "industry", "region", "country", "customer", "period", "period_type", "actual_kg", "stat_forecast_kg", "consensus_kg", "override_kg", "final_forecast_kg", "price_eur_per_kg", "final_forecast_eur", "open_comments", "updated_by"];
+  const cols = ["product_code", "product_name", "species", "product_format", "channel", "region", "country", "customer", "period", "period_type", "actual_kg", "stat_forecast_kg", "consensus_kg", "override_kg", "final_forecast_kg", "price_eur_per_kg", "final_forecast_eur", "open_comments", "updated_by"];
   const lines = [cols.join(",")];
   for (const s of list) for (const r of Object.values(s.cells)) {
     const o = { ...r, final_forecast_kg: r.period_type === "Forecast" ? finalKg(r) : "", final_forecast_eur: r.period_type === "Forecast" ? (finalKg(r) * r.price_eur_per_kg).toFixed(2) : "", open_comments: openCount(r.id) };

@@ -1,16 +1,16 @@
 -- =====================================================================
--- Enzyme Demand Plan – schema with writeback (Supabase / Postgres)
+-- Seafood Demand Plan – schema with writeback (Supabase / Postgres)
 -- =====================================================================
 
--- ---------- Fact table: one row per Material x Customer x Country x Month
+-- ---------- Fact table: one row per Product x Customer x Country x Month
 create table public.demand_plan (
   id                bigint generated always as identity primary key,
   plan_cycle        text        not null default '2026-11',
-  material_code     text        not null,
-  material_name     text        not null,
-  enzyme_family     text        not null,
-  formulation       text        not null,          -- Liquid / Granulate / Powder
-  industry          text        not null,
+  product_code      text        not null,
+  product_name      text        not null,
+  species           text        not null,          -- Salmon / Cod / Shrimp / ...
+  product_format    text        not null,          -- Fresh / Frozen / Smoked / Chilled / Canned / Salted
+  channel           text        not null,          -- Retail / Foodservice / Wholesale / ...
   region            text        not null,
   country           text        not null,
   customer          text        not null,
@@ -26,10 +26,11 @@ create table public.demand_plan (
   version           integer     not null default 1,  -- optimistic concurrency
   updated_by        text,
   updated_at        timestamptz,
-  unique (plan_cycle, material_code, customer, country, period)
+  constraint demand_plan_cycle_product_customer_country_period_key
+    unique (plan_cycle, product_code, customer, country, period)
 );
 create index on public.demand_plan (period);
-create index on public.demand_plan (region, industry);
+create index demand_plan_region_channel_idx on public.demand_plan (region, channel);
 
 comment on column public.demand_plan.override_kg is 'Writeback value from the planner. Final forecast = coalesce(override_kg, consensus_kg).';
 
@@ -39,7 +40,7 @@ create table public.plan_comment (
   plan_id       bigint not null references public.demand_plan(id) on delete cascade,
   category      text   not null check (category in (
                   'Tender pending','Customer confirmed','New business','Lost business',
-                  'Price change','Promotion / campaign','Supply constraint',
+                  'Price change','Promotion / campaign','Supply constraint','Catch / quota',
                   'Regulatory','Phasing / timing','Other')),
   body          text   not null check (length(body) between 1 and 1000),
   author        text   not null,

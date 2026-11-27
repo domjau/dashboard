@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Enzyme Demand Planner</title>
+<title>Seafood Demand Planner</title>
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='8' width='3' height='7' rx='1' fill='%23f2a600'/%3E%3Crect x='6' y='4' width='3' height='11' rx='1' fill='%23f2a600'/%3E%3Crect x='11' y='1' width='3' height='14' rx='1' fill='%23f2a600'/%3E%3C/svg%3E">
 </head>
@@ -11,7 +11,7 @@
 <header class="appbar">
   <div class="brand">
     <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><rect x="1" y="8" width="3" height="7" rx="1"/><rect x="6" y="4" width="3" height="11" rx="1"/><rect x="11" y="1" width="3" height="14" rx="1"/></svg>
-    <span class="brand-name"><span class="lbl-long">Enzyme </span>Demand Planner</span>
+    <span class="brand-name"><span class="lbl-long">Seafood </span>Demand Planner</span>
     <span class="crumb">Workspace › S&amp;OP › <b>Demand Plan – Nov 2026 cycle</b></span>
   </div>
   <div class="appbar-right">
@@ -61,8 +61,8 @@
           <div class="chart" id="chRegion" style="height:260px"></div>
         </div>
         <div class="card">
-          <div class="card-h"><h3>Final forecast by industry</h3><span class="sub">Click a bar to cross-filter</span></div>
-          <div class="chart" id="chIndustry" style="height:260px"></div>
+          <div class="card-h"><h3>Final forecast by channel</h3><span class="sub">Click a bar to cross-filter</span></div>
+          <div class="chart" id="chChannel" style="height:260px"></div>
         </div>
         <div class="card">
           <div class="card-h"><h3>Growth vs prior year</h3><span class="sub">Next 12M forecast vs same months last year</span></div>
@@ -84,7 +84,7 @@
     <!-- =================== WRITEBACK =================== -->
     <section class="page" id="page-writeback">
       <div class="toolbar">
-        <input id="gridSearch" type="search" placeholder="Search material, customer, country…" aria-label="Search grid">
+        <input id="gridSearch" type="search" placeholder="Search product, species, customer, country…" aria-label="Search grid">
         <label class="chk"><input type="checkbox" id="showActuals" checked> Show actuals</label>
         <label class="chk"><input type="checkbox" id="onlyChanged"> Only overridden / commented</label>
         <span class="spacer"></span>
@@ -135,7 +135,7 @@
         <table class="plain">
           <tr><td><code>writeback_forecast(id, kg, user, expected_version, note)</code></td><td>Sets a planner override on one forecast cell. Rejects actual (locked) periods, negative values and stale versions, so two planners editing the same cell can't silently overwrite each other.</td></tr>
           <tr><td><code>writeback_bulk_pct(ids[], pct, user, note)</code></td><td>Applies a % uplift or reduction to many cells in one transaction.</td></tr>
-          <tr><td><code>add_plan_comment(id, category, body, user)</code></td><td>Attaches business context such as <i>Tender pending</i> or <i>Customer confirmed</i> to a cell.</td></tr>
+          <tr><td><code>add_plan_comment(id, category, body, user)</code></td><td>Attaches business context such as <i>Tender pending</i>, <i>Customer confirmed</i> or <i>Catch / quota</i> to a cell.</td></tr>
           <tr><td><code>resolve_plan_comment(comment_id, user)</code></td><td>Closes a comment once the information is no longer pending.</td></tr>
         </table>
         <h4>Measures</h4>
@@ -145,7 +145,7 @@
           <tr><td>Forecast accuracy</td><td>1 − Σ|actual − consensus| ÷ Σ actual, over the last 6 closed months (WMAPE)</td></tr>
           <tr><td>Bias</td><td>Σ(consensus − actual) ÷ Σ actual</td></tr>
         </table>
-        <p class="sub">Grain: Material × Customer × Country × Month. 167 series, 3,000 rows. All customers and products are fictional sample data.</p>
+        <p class="sub">Grain: Product × Customer × Country × Month. 167 series, 3,000 rows. All customers and products are fictional sample data.</p>
       </div>
     </section>
 

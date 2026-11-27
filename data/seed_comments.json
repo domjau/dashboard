@@ -2,577 +2,577 @@
  "comments": [
   {
    "key": [
-    "ENZ-2210",
-    "Cleanova Brands",
-    "United States",
-    "2026-11-01"
-   ],
-   "category": "New business",
-   "body": "New plant start-up at Cleanova Brands – first commercial orders from Nov 2026.",
-   "author": "Marcus Reed",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-2310",
-    "Saraswati Denim",
-    "Canada",
-    "2027-04-01"
-   ],
-   "category": "Regulatory",
-   "body": "Registration renewal pending in market; risk of shipment hold in Apr 2027.",
-   "author": "Marcus Reed",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1210",
-    "PureWave Detergents",
-    "France",
-    "2027-08-01"
-   ],
-   "category": "Customer confirmed",
-   "body": "PureWave Detergents confirmed volumes in writing (PO received) for Aug 2027.",
-   "author": "Sofie Jensen",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-1620",
-    "AquaGrow Feed",
-    "Canada",
-    "2026-12-01"
-   ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Dec 2026; customer may pre-buy the month before.",
-   "author": "Marcus Reed",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1520",
-    "MillRun Ingredients",
-    "United States",
+    "FSH-1320",
+    "Pier 9 Distribution",
+    "Germany",
     "2027-09-01"
    ],
-   "category": "Tender pending",
-   "body": "National tender for MillRun Ingredients submitted, decision expected end of Sep 2027. Volume included at 50% probability.",
-   "author": "Marcus Reed",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-1110",
-    "GreenField Ethanol",
-    "China",
-    "2027-03-01"
-   ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Mar 2027; customer may pre-buy the month before.",
-   "author": "Wei Zhang",
+   "category": "Lost business",
+   "body": "Pier 9 Distribution moving part of the volume to a competitor from Sep 2027, reduced by ~30%.",
+   "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1810",
-    "Alpenmilch Cooperative",
+    "FSH-1710",
+    "Galley Contract Catering",
     "United States",
-    "2026-11-01"
+    "2027-05-01"
    ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Nov 2026; customer may pre-buy the month before.",
+   "category": "Promotion / campaign",
+   "body": "Galley Contract Catering running a 2-for-1 promotion in May 2027, extra volume for pipeline fill.",
    "author": "Marcus Reed",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1230",
-    "Prairie Livestock Nutrition",
-    "Brazil",
+    "FSH-1610",
+    "Coastline Foods Retail",
+    "Germany",
     "2027-10-01"
    ],
-   "category": "Tender pending",
-   "body": "National tender for Prairie Livestock Nutrition submitted, decision expected end of Oct 2027. Volume included at 50% probability.",
-   "author": "Camila Torres",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-2110",
-    "Northgate Brewing Co.",
-    "India",
-    "2027-01-01"
-   ],
-   "category": "Tender pending",
-   "body": "National tender for Northgate Brewing Co. submitted, decision expected end of Jan 2027. Volume included at 50% probability.",
-   "author": "Wei Zhang",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1510",
-    "Harvest Premix",
-    "Germany",
-    "2027-09-01"
-   ],
-   "category": "New business",
-   "body": "New plant start-up at Harvest Premix – first commercial orders from Sep 2027.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1320",
-    "MillRun Ingredients",
-    "China",
-    "2026-12-01"
-   ],
-   "category": "Promotion / campaign",
-   "body": "MillRun Ingredients launching a new product line, extra volume for pipeline fill in Dec 2026.",
-   "author": "Wei Zhang",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-2310",
-    "Saraswati Denim",
-    "Canada",
-    "2026-11-01"
-   ],
-   "category": "New business",
-   "body": "New plant start-up at Saraswati Denim – first commercial orders from Nov 2026.",
-   "author": "Marcus Reed",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-1020",
-    "Cornerstone Starch",
-    "Japan",
-    "2027-03-01"
-   ],
-   "category": "New business",
-   "body": "New plant start-up at Cornerstone Starch – first commercial orders from Mar 2027.",
-   "author": "Wei Zhang",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1240",
-    "Northgate Brewing Co.",
-    "United States",
-    "2027-07-01"
-   ],
    "category": "Customer confirmed",
-   "body": "Call with Northgate Brewing Co. procurement – annual contract confirmed, monthly call-offs as forecasted.",
-   "author": "Marcus Reed",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-2210",
-    "BrightHome Consumer",
-    "Germany",
-    "2027-05-01"
-   ],
-   "category": "Promotion / campaign",
-   "body": "BrightHome Consumer launching a new product line, extra volume for pipeline fill in May 2027.",
+   "body": "Coastline Foods Retail confirmed volumes in writing (PO received) for Oct 2027.",
    "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1220",
-    "BrightHome Consumer",
-    "France",
-    "2027-05-01"
-   ],
-   "category": "Phasing / timing",
-   "body": "Customer shifted delivery from May 2027 to the following month due to warehouse move.",
-   "author": "Sofie Jensen",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-1810",
-    "Nordic Creamery",
-    "France",
-    "2027-07-01"
-   ],
-   "category": "Regulatory",
-   "body": "Registration renewal pending in market; risk of shipment hold in Jul 2027.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1620",
-    "Prairie Livestock Nutrition",
-    "Germany",
+    "FSH-1220",
+    "Sea Table Restaurants",
+    "Spain",
     "2027-02-01"
    ],
+   "category": "New business",
+   "body": "Sea Table Restaurants listing our range in 40 new stores from Feb 2027.",
+   "author": "Sofie Jensen",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1130",
+    "Blue Dock Wholesale",
+    "Norway",
+    "2026-12-01"
+   ],
    "category": "Price change",
-   "body": "Price increase of 4% effective Feb 2027; customer may pre-buy the month before.",
+   "body": "Price increase of 6% effective Dec 2026 due to higher raw material cost; customer may pre-buy.",
    "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1310",
-    "PureWave Detergents",
-    "Japan",
-    "2026-12-01"
+    "FSH-1910",
+    "Coastline Foods Retail",
+    "South Korea",
+    "2027-06-01"
    ],
-   "category": "Promotion / campaign",
-   "body": "PureWave Detergents launching a new product line, extra volume for pipeline fill in Dec 2026.",
+   "category": "Price change",
+   "body": "Price increase of 6% effective Jun 2027 due to higher raw material cost; customer may pre-buy.",
    "author": "Wei Zhang",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1620",
-    "AquaGrow Feed",
-    "Canada",
-    "2027-09-01"
-   ],
-   "category": "Tender pending",
-   "body": "National tender for AquaGrow Feed submitted, decision expected end of Sep 2027. Volume included at 50% probability.",
-   "author": "Marcus Reed",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-2110",
-    "Hopfield Breweries",
+    "FSH-1910",
+    "NorthMart Supermarkets",
     "United States",
-    "2027-04-01"
+    "2027-10-01"
    ],
-   "category": "Tender pending",
-   "body": "Hopfield Breweries running a supplier tender for 2027 volumes – award pending. Upside if we win.",
+   "category": "Customer confirmed",
+   "body": "NorthMart Supermarkets confirmed volumes in writing (PO received) for Oct 2027.",
    "author": "Marcus Reed",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-2110",
-    "Northgate Brewing Co.",
-    "India",
-    "2026-11-01"
+    "FSH-1610",
+    "ValuePlus Discount",
+    "China",
+    "2027-01-01"
    ],
-   "category": "Promotion / campaign",
-   "body": "Northgate Brewing Co. launching a new product line, extra volume for pipeline fill in Nov 2026.",
+   "category": "Phasing / timing",
+   "body": "Customer shifted delivery from Jan 2027 to the following month due to cold-store move.",
    "author": "Wei Zhang",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-2010",
-    "Meridian Food Systems",
+    "FSH-1110",
+    "Metro Hospitality Group",
+    "Netherlands",
+    "2027-08-01"
+   ],
+   "category": "Regulatory",
+   "body": "Import health certificate renewal pending; risk of shipment hold in Aug 2027.",
+   "author": "Sofie Jensen",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1310",
+    "Ocean Deli Manufacturing",
     "Australia",
-    "2027-01-01"
-   ],
-   "category": "Supply constraint",
-   "body": "Fermentation capacity tight in Jan 2027 – allocation may apply. Check with supply planning.",
-   "author": "Wei Zhang",
-   "status": "Resolved"
-  },
-  {
-   "key": [
-    "ENZ-2010",
-    "Nordic Creamery",
-    "Türkiye",
     "2027-03-01"
    ],
-   "category": "Phasing / timing",
-   "body": "Customer shifted delivery from Mar 2027 to the following month due to warehouse move.",
-   "author": "Sofie Jensen",
+   "category": "Tender pending",
+   "body": "Ocean Deli Manufacturing running a private-label tender for 2027 – award expected end of Mar 2027. Volume included at 50% probability.",
+   "author": "Wei Zhang",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1910",
-    "Meridian Food Systems",
-    "Spain",
-    "2027-05-01"
-   ],
-   "category": "Supply constraint",
-   "body": "Fermentation capacity tight in May 2027 – allocation may apply. Check with supply planning.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1510",
-    "AquaGrow Feed",
-    "Poland",
+    "FSH-1110",
+    "Sea Table Restaurants",
+    "Canada",
     "2027-07-01"
    ],
-   "category": "Lost business",
-   "body": "AquaGrow Feed moving part of volume to competitor from Jul 2027, reduced by ~30%.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-2010",
-    "Meridian Food Systems",
-    "China",
-    "2027-09-01"
-   ],
-   "category": "Lost business",
-   "body": "Meridian Food Systems moving part of volume to competitor from Sep 2027, reduced by ~30%.",
-   "author": "Wei Zhang",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1910",
-    "Meridian Food Systems",
-    "Türkiye",
-    "2027-05-01"
-   ],
-   "category": "Regulatory",
-   "body": "Registration renewal pending in market; risk of shipment hold in May 2027.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1920",
-    "Indigo Mills",
-    "Spain",
-    "2027-03-01"
-   ],
    "category": "Promotion / campaign",
-   "body": "Indigo Mills launching a new product line, extra volume for pipeline fill in Mar 2027.",
-   "author": "Sofie Jensen",
+   "body": "Sea Table Restaurants running a 2-for-1 promotion in Jul 2027, extra volume for pipeline fill.",
+   "author": "Marcus Reed",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1810",
-    "Alpenmilch Cooperative",
-    "United Kingdom",
-    "2027-01-01"
+    "FSH-1130",
+    "Coastline Foods Retail",
+    "France",
+    "2027-07-01"
    ],
-   "category": "New business",
-   "body": "New plant start-up at Alpenmilch Cooperative – first commercial orders from Jan 2027.",
+   "category": "Tender pending",
+   "body": "Coastline Foods Retail running a private-label tender for 2027 – award expected end of Jul 2027. Volume included at 50% probability.",
    "author": "Sofie Jensen",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1240",
-    "Northgate Brewing Co.",
-    "United Kingdom",
-    "2027-02-01"
+    "FSH-1310",
+    "NorthMart Supermarkets",
+    "Chile",
+    "2027-01-01"
+   ],
+   "category": "Tender pending",
+   "body": "Annual seafood tender at NorthMart Supermarkets submitted; decision pending. Upside if we win the frozen range.",
+   "author": "Camila Torres",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-2010",
+    "Galley Contract Catering",
+    "United States",
+    "2027-04-01"
    ],
    "category": "Phasing / timing",
-   "body": "Customer shifted delivery from Feb 2027 to the following month due to warehouse move.",
+   "body": "Customer shifted delivery from Apr 2027 to the following month due to cold-store move.",
+   "author": "Marcus Reed",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1010",
+    "ValuePlus Discount",
+    "Netherlands",
+    "2027-03-01"
+   ],
+   "category": "Catch / quota",
+   "body": "Quota cut announced for next season; raw material availability at risk around Mar 2027.",
    "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1310",
-    "Cleanova Brands",
+    "FSH-1910",
+    "Metro Hospitality Group",
+    "Australia",
+    "2027-05-01"
+   ],
+   "category": "New business",
+   "body": "Metro Hospitality Group listing our range in 40 new stores from May 2027.",
+   "author": "Wei Zhang",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1110",
+    "Harbour Catering Co.",
+    "United States",
+    "2027-04-01"
+   ],
+   "category": "Regulatory",
+   "body": "Import health certificate renewal pending; risk of shipment hold in Apr 2027.",
+   "author": "Marcus Reed",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1030",
+    "Galley Contract Catering",
+    "United States",
+    "2027-02-01"
+   ],
+   "category": "Customer confirmed",
+   "body": "Call with Galley Contract Catering buyer – Christmas/Easter programme confirmed, weekly call-offs as forecasted.",
+   "author": "Marcus Reed",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1410",
+    "Blue Dock Wholesale",
+    "Brazil",
+    "2027-10-01"
+   ],
+   "category": "Regulatory",
+   "body": "Import health certificate renewal pending; risk of shipment hold in Oct 2027.",
+   "author": "Camila Torres",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1320",
+    "Pier 9 Distribution",
     "Germany",
     "2026-12-01"
    ],
-   "category": "Promotion / campaign",
-   "body": "Cleanova Brands launching a new product line, extra volume for pipeline fill in Dec 2026.",
+   "category": "Phasing / timing",
+   "body": "Customer shifted delivery from Dec 2026 to the following month due to cold-store move.",
    "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1010",
-    "SweetGrain Processing",
-    "China",
+    "FSH-1420",
+    "CrateFresh Online",
+    "Brazil",
     "2027-04-01"
    ],
    "category": "Price change",
-   "body": "Price increase of 4% effective Apr 2027; customer may pre-buy the month before.",
-   "author": "Wei Zhang",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1910",
-    "Meridian Food Systems",
-    "Brazil",
-    "2027-03-01"
-   ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Mar 2027; customer may pre-buy the month before.",
+   "body": "Price increase of 6% effective Apr 2027 due to higher raw material cost; customer may pre-buy.",
    "author": "Camila Torres",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1510",
-    "AquaGrow Feed",
+    "FSH-1910",
+    "Metro Hospitality Group",
     "China",
-    "2027-03-01"
+    "2026-11-01"
    ],
-   "category": "New business",
-   "body": "New plant start-up at AquaGrow Feed – first commercial orders from Mar 2027.",
+   "category": "Price change",
+   "body": "Price increase of 6% effective Nov 2026 due to higher raw material cost; customer may pre-buy.",
    "author": "Wei Zhang",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1410",
-    "BrightHome Consumer",
-    "Netherlands",
-    "2027-02-01"
-   ],
-   "category": "Lost business",
-   "body": "BrightHome Consumer moving part of volume to competitor from Feb 2027, reduced by ~30%.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1410",
-    "BrightHome Consumer",
-    "Netherlands",
-    "2027-03-01"
-   ],
-   "category": "Phasing / timing",
-   "body": "Customer shifted delivery from Mar 2027 to the following month due to warehouse move.",
-   "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1520",
-    "MillRun Ingredients",
-    "India",
-    "2027-06-01"
-   ],
-   "category": "Supply constraint",
-   "body": "Fermentation capacity tight in Jun 2027 – allocation may apply. Check with supply planning.",
-   "author": "Wei Zhang",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1020",
-    "Copperleaf Beverages",
-    "Mexico",
-    "2027-08-01"
+    "FSH-1420",
+    "NorthMart Supermarkets",
+    "Brazil",
+    "2027-09-01"
    ],
    "category": "Customer confirmed",
-   "body": "Copperleaf Beverages confirmed volumes in writing (PO received) for Aug 2027.",
+   "body": "NorthMart Supermarkets confirmed volumes in writing (PO received) for Sep 2027.",
+   "author": "Camila Torres",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1610",
+    "ValuePlus Discount",
+    "United States",
+    "2027-07-01"
+   ],
+   "category": "Lost business",
+   "body": "ValuePlus Discount moving part of the volume to a competitor from Jul 2027, reduced by ~30%.",
    "author": "Marcus Reed",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1610",
-    "Harvest Premix",
-    "United Kingdom",
+    "FSH-1320",
+    "Pier 9 Distribution",
+    "Germany",
+    "2027-03-01"
+   ],
+   "category": "Promotion / campaign",
+   "body": "Pier 9 Distribution running a 2-for-1 promotion in Mar 2027, extra volume for pipeline fill.",
+   "author": "Sofie Jensen",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-2210",
+    "NorthMart Supermarkets",
+    "Germany",
     "2027-05-01"
    ],
-   "category": "Lost business",
-   "body": "Harvest Premix moving part of volume to competitor from May 2027, reduced by ~30%.",
+   "category": "Customer confirmed",
+   "body": "Call with NorthMart Supermarkets buyer – Christmas/Easter programme confirmed, weekly call-offs as forecasted.",
    "author": "Sofie Jensen",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1510",
+    "Baltic Retail Group",
+    "United States",
+    "2027-04-01"
+   ],
+   "category": "Catch / quota",
+   "body": "Quota cut announced for next season; raw material availability at risk around Apr 2027.",
+   "author": "Marcus Reed",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1610",
-    "AgriNutri Feeds",
-    "United States",
-    "2027-10-01"
+    "FSH-2110",
+    "CrateFresh Online",
+    "Mexico",
+    "2027-09-01"
    ],
-   "category": "Phasing / timing",
-   "body": "Customer shifted delivery from Oct 2027 to the following month due to warehouse move.",
+   "category": "Customer confirmed",
+   "body": "Call with CrateFresh Online buyer – Christmas/Easter programme confirmed, weekly call-offs as forecasted.",
    "author": "Marcus Reed",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1020",
-    "GreenField Ethanol",
-    "Türkiye",
+    "FSH-1510",
+    "FreshWay Grocers",
+    "Germany",
     "2027-03-01"
    ],
-   "category": "Lost business",
-   "body": "GreenField Ethanol moving part of volume to competitor from Mar 2027, reduced by ~30%.",
+   "category": "Tender pending",
+   "body": "FreshWay Grocers running a private-label tender for 2027 – award expected end of Mar 2027. Volume included at 50% probability.",
    "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-2110",
-    "Northgate Brewing Co.",
+    "FSH-1130",
+    "Atlantic Fish Traders",
     "France",
-    "2027-06-01"
+    "2027-05-01"
    ],
    "category": "Customer confirmed",
-   "body": "Northgate Brewing Co. confirmed volumes in writing (PO received) for Jun 2027.",
+   "body": "Call with Atlantic Fish Traders buyer – Christmas/Easter programme confirmed, weekly call-offs as forecasted.",
    "author": "Sofie Jensen",
-   "status": "Open"
-  },
-  {
-   "key": [
-    "ENZ-1230",
-    "Prairie Livestock Nutrition",
-    "Brazil",
-    "2026-11-01"
-   ],
-   "category": "Regulatory",
-   "body": "Registration renewal pending in market; risk of shipment hold in Nov 2026.",
-   "author": "Camila Torres",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1410",
-    "Indigo Mills",
-    "Netherlands",
+    "FSH-1030",
+    "SeaBox Meal Kits",
+    "South Korea",
     "2026-11-01"
    ],
-   "category": "Customer confirmed",
-   "body": "Call with Indigo Mills procurement – annual contract confirmed, monthly call-offs as forecasted.",
-   "author": "Sofie Jensen",
+   "category": "New business",
+   "body": "SeaBox Meal Kits listing our range in 40 new stores from Nov 2026.",
+   "author": "Wei Zhang",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-1810",
-    "Nordic Creamery",
-    "Poland",
+    "FSH-1910",
+    "FreshWay Grocers",
+    "France",
     "2027-10-01"
    ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Oct 2027; customer may pre-buy the month before.",
+   "category": "Catch / quota",
+   "body": "Quota cut announced for next season; raw material availability at risk around Oct 2027.",
    "author": "Sofie Jensen",
    "status": "Resolved"
   },
   {
    "key": [
-    "ENZ-1010",
-    "BioFuel Partners",
-    "Chile",
+    "FSH-1910",
+    "Metro Hospitality Group",
+    "China",
     "2026-12-01"
    ],
-   "category": "Price change",
-   "body": "Price increase of 4% effective Dec 2026; customer may pre-buy the month before.",
-   "author": "Camila Torres",
+   "category": "Phasing / timing",
+   "body": "Customer shifted delivery from Dec 2026 to the following month due to cold-store move.",
+   "author": "Wei Zhang",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1010",
+    "NorthMart Supermarkets",
+    "Poland",
+    "2027-05-01"
+   ],
+   "category": "Catch / quota",
+   "body": "Quota cut announced for next season; raw material availability at risk around May 2027.",
+   "author": "Sofie Jensen",
    "status": "Open"
   },
   {
    "key": [
-    "ENZ-2210",
-    "PureWave Detergents",
-    "China",
-    "2027-02-01"
+    "FSH-1410",
+    "Blue Dock Wholesale",
+    "Japan",
+    "2027-09-01"
    ],
    "category": "Supply constraint",
-   "body": "Fermentation capacity tight in Feb 2027 – allocation may apply. Check with supply planning.",
+   "body": "Harvest volumes low in Sep 2027 – allocation may apply. Check with supply planning.",
+   "author": "Wei Zhang",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1410",
+    "Blue Dock Wholesale",
+    "Brazil",
+    "2026-12-01"
+   ],
+   "category": "Phasing / timing",
+   "body": "Customer shifted delivery from Dec 2026 to the following month due to cold-store move.",
+   "author": "Camila Torres",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "SeaBox Meal Kits",
+    "United States",
+    "2027-05-01"
+   ],
+   "category": "Price change",
+   "body": "Price increase of 6% effective May 2027 due to higher raw material cost; customer may pre-buy.",
+   "author": "Marcus Reed",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1020",
+    "FreshWay Grocers",
+    "Spain",
+    "2027-02-01"
+   ],
+   "category": "Customer confirmed",
+   "body": "FreshWay Grocers confirmed volumes in writing (PO received) for Feb 2027.",
+   "author": "Sofie Jensen",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1220",
+    "Metro Hospitality Group",
+    "United States",
+    "2027-07-01"
+   ],
+   "category": "Price change",
+   "body": "Price increase of 6% effective Jul 2027 due to higher raw material cost; customer may pre-buy.",
+   "author": "Marcus Reed",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1510",
+    "Coastline Foods Retail",
+    "Japan",
+    "2027-07-01"
+   ],
+   "category": "Customer confirmed",
+   "body": "Coastline Foods Retail confirmed volumes in writing (PO received) for Jul 2027.",
+   "author": "Wei Zhang",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1520",
+    "Atlantic Fish Traders",
+    "Japan",
+    "2027-01-01"
+   ],
+   "category": "Supply constraint",
+   "body": "Harvest volumes low in Jan 2027 – allocation may apply. Check with supply planning.",
+   "author": "Wei Zhang",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1910",
+    "NorthMart Supermarkets",
+    "United States",
+    "2027-03-01"
+   ],
+   "category": "Tender pending",
+   "body": "NorthMart Supermarkets running a private-label tender for 2027 – award expected end of Mar 2027. Volume included at 50% probability.",
+   "author": "Marcus Reed",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "CrateFresh Online",
+    "United States",
+    "2027-04-01"
+   ],
+   "category": "Catch / quota",
+   "body": "Quota cut announced for next season; raw material availability at risk around Apr 2027.",
+   "author": "Marcus Reed",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1210",
+    "QuickCatch Fast Food",
+    "Germany",
+    "2027-01-01"
+   ],
+   "category": "Lost business",
+   "body": "QuickCatch Fast Food moving part of the volume to a competitor from Jan 2027, reduced by ~30%.",
+   "author": "Sofie Jensen",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1040",
+    "SushiPro Prep",
+    "Brazil",
+    "2026-12-01"
+   ],
+   "category": "New business",
+   "body": "SushiPro Prep listing our range in 40 new stores from Dec 2026.",
+   "author": "Camila Torres",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-1510",
+    "FreshWay Grocers",
+    "China",
+    "2027-06-01"
+   ],
+   "category": "Regulatory",
+   "body": "Import health certificate renewal pending; risk of shipment hold in Jun 2027.",
+   "author": "Wei Zhang",
+   "status": "Resolved"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "NorthMart Supermarkets",
+    "Japan",
+    "2027-01-01"
+   ],
+   "category": "Promotion / campaign",
+   "body": "NorthMart Supermarkets running a 2-for-1 promotion in Jan 2027, extra volume for pipeline fill.",
+   "author": "Wei Zhang",
+   "status": "Open"
+  },
+  {
+   "key": [
+    "FSH-1110",
+    "FreshWay Grocers",
+    "China",
+    "2027-04-01"
+   ],
+   "category": "Lost business",
+   "body": "FreshWay Grocers moving part of the volume to a competitor from Apr 2027, reduced by ~30%.",
    "author": "Wei Zhang",
    "status": "Open"
   }
@@ -580,190 +580,289 @@
  "overrides": [
   {
    "key": [
-    "ENZ-2210",
-    "Cleanova Brands",
-    "United States",
-    "2026-11-01"
+    "FSH-1320",
+    "Pier 9 Distribution",
+    "Germany",
+    "2027-09-01"
    ],
-   "override_kg": 66498.2,
+   "override_kg": 5318.5,
+   "author": "Sofie Jensen",
+   "note": "Lost business"
+  },
+  {
+   "key": [
+    "FSH-1710",
+    "Galley Contract Catering",
+    "United States",
+    "2027-05-01"
+   ],
+   "override_kg": 15894.6,
    "author": "Marcus Reed",
+   "note": "Promotion / campaign"
+  },
+  {
+   "key": [
+    "FSH-1220",
+    "Sea Table Restaurants",
+    "Spain",
+    "2027-02-01"
+   ],
+   "override_kg": 13157.5,
+   "author": "Sofie Jensen",
    "note": "New business"
   },
   {
    "key": [
-    "ENZ-1210",
-    "PureWave Detergents",
-    "France",
-    "2027-08-01"
+    "FSH-1310",
+    "Ocean Deli Manufacturing",
+    "Australia",
+    "2027-03-01"
    ],
-   "override_kg": 15103.4,
+   "override_kg": 5510.1,
+   "author": "Wei Zhang",
+   "note": "Tender pending"
+  },
+  {
+   "key": [
+    "FSH-1110",
+    "Sea Table Restaurants",
+    "Canada",
+    "2027-07-01"
+   ],
+   "override_kg": 3656.2,
+   "author": "Marcus Reed",
+   "note": "Promotion / campaign"
+  },
+  {
+   "key": [
+    "FSH-1130",
+    "Coastline Foods Retail",
+    "France",
+    "2027-07-01"
+   ],
+   "override_kg": 4227.5,
+   "author": "Sofie Jensen",
+   "note": "Tender pending"
+  },
+  {
+   "key": [
+    "FSH-1010",
+    "ValuePlus Discount",
+    "Netherlands",
+    "2027-03-01"
+   ],
+   "override_kg": 5357.9,
+   "author": "Sofie Jensen",
+   "note": "Catch / quota"
+  },
+  {
+   "key": [
+    "FSH-1910",
+    "Metro Hospitality Group",
+    "Australia",
+    "2027-05-01"
+   ],
+   "override_kg": 3520.9,
+   "author": "Wei Zhang",
+   "note": "New business"
+  },
+  {
+   "key": [
+    "FSH-1030",
+    "Galley Contract Catering",
+    "United States",
+    "2027-02-01"
+   ],
+   "override_kg": 10867.3,
+   "author": "Marcus Reed",
+   "note": "Customer confirmed"
+  },
+  {
+   "key": [
+    "FSH-1420",
+    "NorthMart Supermarkets",
+    "Brazil",
+    "2027-09-01"
+   ],
+   "override_kg": 4141.8,
+   "author": "Camila Torres",
+   "note": "Customer confirmed"
+  },
+  {
+   "key": [
+    "FSH-1610",
+    "ValuePlus Discount",
+    "United States",
+    "2027-07-01"
+   ],
+   "override_kg": 12991.6,
+   "author": "Marcus Reed",
+   "note": "Lost business"
+  },
+  {
+   "key": [
+    "FSH-1320",
+    "Pier 9 Distribution",
+    "Germany",
+    "2027-03-01"
+   ],
+   "override_kg": 7504.8,
+   "author": "Sofie Jensen",
+   "note": "Promotion / campaign"
+  },
+  {
+   "key": [
+    "FSH-2210",
+    "NorthMart Supermarkets",
+    "Germany",
+    "2027-05-01"
+   ],
+   "override_kg": 2814.5,
    "author": "Sofie Jensen",
    "note": "Customer confirmed"
   },
   {
    "key": [
-    "ENZ-1520",
-    "MillRun Ingredients",
-    "United States",
-    "2027-09-01"
-   ],
-   "override_kg": 9267.6,
-   "author": "Marcus Reed",
-   "note": "Tender pending"
-  },
-  {
-   "key": [
-    "ENZ-1230",
-    "Prairie Livestock Nutrition",
-    "Brazil",
-    "2027-10-01"
-   ],
-   "override_kg": 22054.6,
-   "author": "Camila Torres",
-   "note": "Tender pending"
-  },
-  {
-   "key": [
-    "ENZ-1320",
-    "MillRun Ingredients",
-    "China",
-    "2026-12-01"
-   ],
-   "override_kg": 3913.9,
-   "author": "Wei Zhang",
-   "note": "Promotion / campaign"
-  },
-  {
-   "key": [
-    "ENZ-1020",
-    "Cornerstone Starch",
-    "Japan",
-    "2027-03-01"
-   ],
-   "override_kg": 24679.6,
-   "author": "Wei Zhang",
-   "note": "New business"
-  },
-  {
-   "key": [
-    "ENZ-1240",
-    "Northgate Brewing Co.",
-    "United States",
-    "2027-07-01"
-   ],
-   "override_kg": 9378.1,
-   "author": "Marcus Reed",
-   "note": "Customer confirmed"
-  },
-  {
-   "key": [
-    "ENZ-1310",
-    "PureWave Detergents",
-    "Japan",
-    "2026-12-01"
-   ],
-   "override_kg": 9274.7,
-   "author": "Wei Zhang",
-   "note": "Promotion / campaign"
-  },
-  {
-   "key": [
-    "ENZ-2110",
-    "Hopfield Breweries",
+    "FSH-1510",
+    "Baltic Retail Group",
     "United States",
     "2027-04-01"
    ],
-   "override_kg": 9345.9,
+   "override_kg": 7317.4,
    "author": "Marcus Reed",
+   "note": "Catch / quota"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "CrateFresh Online",
+    "Mexico",
+    "2027-09-01"
+   ],
+   "override_kg": 822.7,
+   "author": "Marcus Reed",
+   "note": "Customer confirmed"
+  },
+  {
+   "key": [
+    "FSH-1510",
+    "FreshWay Grocers",
+    "Germany",
+    "2027-03-01"
+   ],
+   "override_kg": 11173.8,
+   "author": "Sofie Jensen",
    "note": "Tender pending"
   },
   {
    "key": [
-    "ENZ-1510",
-    "AquaGrow Feed",
-    "Poland",
-    "2027-07-01"
+    "FSH-1130",
+    "Atlantic Fish Traders",
+    "France",
+    "2027-05-01"
    ],
-   "override_kg": 3599.4,
+   "override_kg": 16542.9,
    "author": "Sofie Jensen",
-   "note": "Lost business"
+   "note": "Customer confirmed"
   },
   {
    "key": [
-    "ENZ-2010",
-    "Meridian Food Systems",
-    "China",
-    "2027-09-01"
+    "FSH-1030",
+    "SeaBox Meal Kits",
+    "South Korea",
+    "2026-11-01"
    ],
-   "override_kg": 1367.2,
-   "author": "Wei Zhang",
-   "note": "Lost business"
-  },
-  {
-   "key": [
-    "ENZ-1920",
-    "Indigo Mills",
-    "Spain",
-    "2027-03-01"
-   ],
-   "override_kg": 1981.1,
-   "author": "Sofie Jensen",
-   "note": "Promotion / campaign"
-  },
-  {
-   "key": [
-    "ENZ-1310",
-    "Cleanova Brands",
-    "Germany",
-    "2026-12-01"
-   ],
-   "override_kg": 32423.8,
-   "author": "Sofie Jensen",
-   "note": "Promotion / campaign"
-  },
-  {
-   "key": [
-    "ENZ-1510",
-    "AquaGrow Feed",
-    "China",
-    "2027-03-01"
-   ],
-   "override_kg": 54069.5,
+   "override_kg": 2659.9,
    "author": "Wei Zhang",
    "note": "New business"
   },
   {
    "key": [
-    "ENZ-1410",
-    "BrightHome Consumer",
-    "Netherlands",
+    "FSH-1910",
+    "FreshWay Grocers",
+    "France",
+    "2027-10-01"
+   ],
+   "override_kg": 11385.3,
+   "author": "Sofie Jensen",
+   "note": "Catch / quota"
+  },
+  {
+   "key": [
+    "FSH-1410",
+    "Blue Dock Wholesale",
+    "Japan",
+    "2027-09-01"
+   ],
+   "override_kg": 17451.5,
+   "author": "Wei Zhang",
+   "note": "Supply constraint"
+  },
+  {
+   "key": [
+    "FSH-1020",
+    "FreshWay Grocers",
+    "Spain",
     "2027-02-01"
    ],
-   "override_kg": 4944.6,
-   "author": "Sofie Jensen",
-   "note": "Lost business"
-  },
-  {
-   "key": [
-    "ENZ-1020",
-    "GreenField Ethanol",
-    "Türkiye",
-    "2027-03-01"
-   ],
-   "override_kg": 12626.1,
-   "author": "Sofie Jensen",
-   "note": "Lost business"
-  },
-  {
-   "key": [
-    "ENZ-2110",
-    "Northgate Brewing Co.",
-    "France",
-    "2027-06-01"
-   ],
-   "override_kg": 2648.8,
+   "override_kg": 4998.6,
    "author": "Sofie Jensen",
    "note": "Customer confirmed"
+  },
+  {
+   "key": [
+    "FSH-1510",
+    "Coastline Foods Retail",
+    "Japan",
+    "2027-07-01"
+   ],
+   "override_kg": 16025.1,
+   "author": "Wei Zhang",
+   "note": "Customer confirmed"
+  },
+  {
+   "key": [
+    "FSH-1910",
+    "NorthMart Supermarkets",
+    "United States",
+    "2027-03-01"
+   ],
+   "override_kg": 30358.9,
+   "author": "Marcus Reed",
+   "note": "Tender pending"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "CrateFresh Online",
+    "United States",
+    "2027-04-01"
+   ],
+   "override_kg": 4329.4,
+   "author": "Marcus Reed",
+   "note": "Catch / quota"
+  },
+  {
+   "key": [
+    "FSH-2110",
+    "NorthMart Supermarkets",
+    "Japan",
+    "2027-01-01"
+   ],
+   "override_kg": 10915.7,
+   "author": "Wei Zhang",
+   "note": "Promotion / campaign"
+  },
+  {
+   "key": [
+    "FSH-1110",
+    "FreshWay Grocers",
+    "China",
+    "2027-04-01"
+   ],
+   "override_kg": 16651.0,
+   "author": "Wei Zhang",
+   "note": "Lost business"
   }
  ]
 }

@@ -1,6 +1,6 @@
-# Enzyme Demand Planner: BI dashboard with writeback
+# Seafood Demand Planner: BI dashboard with writeback
 
-A Power BI-style S&OP demand-planning report for an enzymes business. Planners can **write back** forecast overrides and business comments (such as *Tender pending* or *Customer confirmed*) into a live Postgres database on Supabase.
+A Power BI-style S&OP demand-planning report for a seafood company selling fish products. Planners can **write back** forecast overrides and business comments (such as *Tender pending* or *Customer confirmed*) into a live Postgres database on Supabase.
 
 ![Overview](docs/overview.png)
 ![Writeback](docs/writeback.png)
@@ -14,13 +14,13 @@ A Power BI-style S&OP demand-planning report for an enzymes business. Planners c
 
 | Page | What's on it |
 |---|---|
-| **Overview** | KPI cards (12-month final forecast, growth vs prior year, forecast accuracy/bias, overrides, open comments), demand trend (actuals, statistical forecast, final forecast, prior year), forecast bridge (statistical → consensus → writeback), cross-filtering region and industry bars, a growth heat-matrix, top customers, latest comments |
-| **Forecast writeback** | An Excel-like matrix (Material × Customer × Country by month). Actual months are locked; forecast months are editable. Overridden cells are highlighted and cells with comments are flagged. Also has bulk % adjustment and CSV export |
+| **Overview** | KPI cards (12-month final forecast, growth vs prior year, forecast accuracy/bias, overrides, open comments), demand trend (actuals, statistical forecast, final forecast, prior year), forecast bridge (statistical → consensus → writeback), cross-filtering region and channel bars, a growth heat-matrix, top customers, latest comments |
+| **Forecast writeback** | An Excel-like matrix (Product × Customer × Country by month). Actual months are locked; forecast months are editable. Overridden cells are highlighted and cells with comments are flagged. Also has bulk % adjustment and CSV export |
 | **Detail pane** | Statistical, consensus, override and final values, value in EUR, prior year, price; override with reason; categorised comments; per-cell change history |
 | **Comments & audit** | Open comments by category, a comment feed (open/resolved) and the full audit trail. Click any item to jump to its cell |
 | **Data model** | How the writeback architecture works, for the data team |
 
-Slicers: Region, Country, Industry, Enzyme family, Material, Customer, Demand planner. You can switch every measure between **kg** and **EUR**.
+Slicers: Region, Country, Channel, Species, Format, Product, Customer, Demand planner. You can switch every measure between **kg** and **EUR**.
 
 ### Mobile
 
@@ -28,28 +28,30 @@ Below 860px wide, the same app switches to a phone layout that scrolls like an a
 - Compact top bar, with a sticky **Filters** button (showing how many filters are active) and the kg/EUR toggle
 - Filters open as a **bottom sheet** with large tap targets
 - A **fixed bottom tab bar** for Overview, Writeback, Comments and Model
-- Writeback becomes **cards**, one per material, customer and country. Each card has a swipeable strip of months; actuals are greyed, overrides highlighted and comments flagged. Tap a month to open a **full-screen sheet** where you can override, comment and see the history. Cards load 20 at a time ("Show more")
+- Writeback becomes **cards**, one per product, customer and country. Each card has a swipeable strip of months; actuals are greyed, overrides highlighted and comments flagged. Tap a month to open a **full-screen sheet** where you can override, comment and see the history. Cards load 20 at a time ("Show more")
 - Wide tables and the growth matrix scroll sideways inside their cards. The page itself never scrolls sideways
 
 ## Sample data (fictional)
 
 `data/demand_plan.csv`: **3,000 rows**, produced by `scripts/generate_data.py` (seeded, so it can be reproduced).
 
-- **Grain:** Material × Customer × Country × Month, 167 series
+- **Grain:** Product × Customer × Country × Month, 167 series
 - **Horizon:** 6 months of actuals (May–Oct 2026) + 12 months of forecast (Nov 2026–Oct 2027). One new-product launch has only forecast months.
-- **24 enzyme products** in 14 families: amylase, glucoamylase, protease, lipase, cellulase, xylanase, phytase, lactase, chymosin, pectinase, transglutaminase, beta-glucanase, mannanase and catalase
-- **10 industries:** Household Care, Animal Feed, Bioenergy, Starch & Sweeteners, Baking, Brewing, Dairy, Textiles, Food Processing, Juice & Wine
-- **4 regions, 20 countries**, with region-level pricing, industry growth trends and seasonality (baking peaks in Q4, brewing in summer, southern-hemisphere offsets)
+- **24 seafood products** across 11 species: salmon, cod, pollock, shrimp, tuna, mackerel, herring, trout, pangasius, haddock and mixed seafood
+- **6 formats:** Fresh, Frozen, Smoked, Chilled, Canned, Salted
+- **6 sales channels:** Retail, Foodservice, Wholesale, Food Processing, QSR (quick-service restaurants), E-commerce
+- **4 regions, 19 countries**, with region-level pricing, channel growth trends and seafood seasonality: smoked salmon peaks at Christmas, cod and bacalao at Christmas and Lent/Easter, herring at Midsummer and Christmas, shrimp in summer (offset in the southern hemisphere), and pollock comfort food in winter
+- **Writeback comment categories:** Tender pending, Customer confirmed, New business, Lost business, Price change, Promotion / campaign, Supply constraint, Catch / quota, Regulatory, Phasing / timing, Other
 - **Measures:** `actual_kg`, `stat_forecast_kg`, `consensus_kg`, `override_kg` (the writeback), `prior_year_kg`, `price_eur_per_kg`
 
 All customer and product names are made up.
 
 ## Backend (Supabase)
 
-Schema: `supabase/migrations/001_schema.sql`
+Schema: `supabase/migrations/001_seafood_schema.sql`
 
 ```
-demand_plan   – fact table (3,000 rows); final forecast = coalesce(override_kg, consensus_kg)
+demand_plan   – fact table (3,000 rows: product, species, format, channel, customer, country, month); final forecast = coalesce(override_kg, consensus_kg)
 plan_comment  – categorised comments per plan cell (Open / Resolved)
 plan_audit    – append-only log of every override, bulk change, comment and resolution
 v_demand_plan – reporting view with EUR measures, for Power BI / Excel / SQL users

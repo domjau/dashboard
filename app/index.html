@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Enzyme Demand Planner</title>
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Crect x='1' y='8' width='3' height='7' rx='1' fill='%23f2a600'/%3E%3Crect x='6' y='4' width='3' height='11' rx='1' fill='%23f2a600'/%3E%3Crect x='11' y='1' width='3' height='14' rx='1' fill='%23f2a600'/%3E%3C/svg%3E">
+</head>
+<body>
+<header class="appbar">
+  <div class="brand">
+    <svg viewBox="0 0 16 16" width="20" height="20" aria-hidden="true"><rect x="1" y="8" width="3" height="7" rx="1"/><rect x="6" y="4" width="3" height="11" rx="1"/><rect x="11" y="1" width="3" height="14" rx="1"/></svg>
+    <span class="brand-name">Enzyme Demand Planner</span>
+    <span class="crumb">Workspace › S&amp;OP › <b>Demand Plan – Nov 2026 cycle</b></span>
+  </div>
+  <div class="appbar-right">
+    <span id="syncStatus" class="sync" title="Connection to Supabase"><i class="dot"></i><span>Connecting…</span></span>
+    <button id="refreshBtn" class="ghost-btn" title="Refresh data">⟳ Refresh</button>
+    <label class="userpick">Signed in as
+      <select id="userSelect"></select>
+    </label>
+  </div>
+</header>
+
+<div class="shell">
+  <nav class="sidenav" aria-label="Report pages">
+    <button class="navbtn active" data-page="overview" title="Overview"><svg viewBox="0 0 24 24"><path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/></svg><span>Overview</span></button>
+    <button class="navbtn" data-page="writeback" title="Forecast writeback"><svg viewBox="0 0 24 24"><path d="M3 4h18v3H3zM3 9h18v3H3zM3 14h18v3H3zM3 19h12v2H3z"/></svg><span>Writeback</span></button>
+    <button class="navbtn" data-page="comments" title="Comments &amp; audit"><svg viewBox="0 0 24 24"><path d="M4 4h16v11H8l-4 4z"/></svg><span>Comments</span></button>
+    <button class="navbtn" data-page="model" title="Data model"><svg viewBox="0 0 24 24"><path d="M4 5h6v5H4zM14 5h6v5h-6zM9 15h6v5H9zM7 10v3h10v-3h-2v1H9v-1z"/></svg><span>Model</span></button>
+  </nav>
+
+  <main class="canvas">
+    <section class="slicers" id="slicers" aria-label="Filters">
+      <!-- slicers rendered by app.js -->
+    </section>
+
+    <!-- =================== OVERVIEW =================== -->
+    <section class="page active" id="page-overview">
+      <div class="kpis" id="kpis"></div>
+      <div class="grid g-2-1">
+        <div class="card">
+          <div class="card-h"><h3>Demand trend</h3><span class="sub">Actuals May–Oct 2026 · Forecast Nov 2026–Oct 2027</span></div>
+          <div class="chart" id="chTrend" style="height:300px"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Forecast bridge, next 12 months</h3><span class="sub">Statistical → consensus → planner writeback</span></div>
+          <div class="chart" id="chBridge" style="height:300px"></div>
+        </div>
+      </div>
+      <div class="grid g-3">
+        <div class="card">
+          <div class="card-h"><h3>Final forecast by region</h3><span class="sub">Click a bar to cross-filter</span></div>
+          <div class="chart" id="chRegion" style="height:260px"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Final forecast by industry</h3><span class="sub">Click a bar to cross-filter</span></div>
+          <div class="chart" id="chIndustry" style="height:260px"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Growth vs prior year</h3><span class="sub">Next 12M forecast vs same months last year</span></div>
+          <div id="matrix" class="matrix-wrap"></div>
+        </div>
+      </div>
+      <div class="grid g-2-1">
+        <div class="card">
+          <div class="card-h"><h3>Top customers</h3><span class="sub">Next 12 months, final forecast</span></div>
+          <div id="topCustomers" class="table-wrap"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Latest market intelligence</h3><span class="sub">Open planner comments</span></div>
+          <div id="commentPreview" class="feed"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- =================== WRITEBACK =================== -->
+    <section class="page" id="page-writeback">
+      <div class="toolbar">
+        <input id="gridSearch" type="search" placeholder="Search material, customer, country…" aria-label="Search grid">
+        <label class="chk"><input type="checkbox" id="showActuals" checked> Show actuals</label>
+        <label class="chk"><input type="checkbox" id="onlyChanged"> Only overridden / commented</label>
+        <span class="spacer"></span>
+        <span class="legend-inline"><i class="sw sw-ovr"></i>Overridden <i class="sw sw-cmt"></i>Has comment <i class="sw sw-act"></i>Actual (locked)</span>
+        <button class="btn" id="bulkBtn">± Bulk adjust</button>
+        <button class="btn" id="exportBtn">⤓ Export CSV</button>
+      </div>
+      <div class="gridcard">
+        <div class="grid-scroll" id="gridScroll"><table class="wb" id="wbGrid"></table></div>
+        <div class="grid-foot" id="gridFoot"></div>
+      </div>
+      <p class="hint">Select a cell to see its detail. Double-click, press Enter or start typing to edit a forecast value. Enter saves to Supabase and Esc cancels. Arrow keys move between cells.</p>
+    </section>
+
+    <!-- =================== COMMENTS & AUDIT =================== -->
+    <section class="page" id="page-comments">
+      <div class="grid g-1-2">
+        <div class="card">
+          <div class="card-h"><h3>Open comments by category</h3><span class="sub">Click a bar to filter the feed</span></div>
+          <div class="chart" id="chCategories" style="height:330px"></div>
+        </div>
+        <div class="card">
+          <div class="card-h"><h3>Comment feed</h3>
+            <div class="seg" id="commentStatusSeg"><button data-v="Open" class="on">Open</button><button data-v="Resolved">Resolved</button><button data-v="All">All</button></div>
+          </div>
+          <div id="commentFeed" class="feed tall"></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-h"><h3>Audit trail</h3><span class="sub">Every writeback is logged server-side (table <code>plan_audit</code>)</span></div>
+        <div id="auditTable" class="table-wrap tall"></div>
+      </div>
+    </section>
+
+    <!-- =================== DATA MODEL =================== -->
+    <section class="page" id="page-model">
+      <div class="card prose">
+        <div class="card-h"><h3>How the writeback works</h3></div>
+        <div class="model">
+          <div class="mbox"><b>Browser (this report)</b><span>Reads with <code>GET /rest/v1/demand_plan</code><br>Writes with <code>POST /rest/v1/rpc/*</code></span></div>
+          <div class="marrow">→</div>
+          <div class="mbox"><b>Supabase API (PostgREST)</b><span>Row-level security: read-only tables<br>Writes allowed only through functions</span></div>
+          <div class="marrow">→</div>
+          <div class="mbox"><b>Postgres</b><span><code>demand_plan</code> · <code>plan_comment</code> · <code>plan_audit</code><br>View <code>v_demand_plan</code> for BI tools</span></div>
+        </div>
+        <h4>Writeback functions</h4>
+        <table class="plain">
+          <tr><td><code>writeback_forecast(id, kg, user, expected_version, note)</code></td><td>Sets a planner override on one forecast cell. Rejects actual (locked) periods, negative values and stale versions, so two planners editing the same cell can't silently overwrite each other.</td></tr>
+          <tr><td><code>writeback_bulk_pct(ids[], pct, user, note)</code></td><td>Applies a % uplift or reduction to many cells in one transaction.</td></tr>
+          <tr><td><code>add_plan_comment(id, category, body, user)</code></td><td>Attaches business context such as <i>Tender pending</i> or <i>Customer confirmed</i> to a cell.</td></tr>
+          <tr><td><code>resolve_plan_comment(comment_id, user)</code></td><td>Closes a comment once the information is no longer pending.</td></tr>
+        </table>
+        <h4>Measures</h4>
+        <table class="plain">
+          <tr><td>Final forecast</td><td><code>coalesce(override_kg, consensus_kg)</code></td></tr>
+          <tr><td>Value (EUR)</td><td>kg × <code>price_eur_per_kg</code></td></tr>
+          <tr><td>Forecast accuracy</td><td>1 − Σ|actual − consensus| ÷ Σ actual, over the last 6 closed months (WMAPE)</td></tr>
+          <tr><td>Bias</td><td>Σ(consensus − actual) ÷ Σ actual</td></tr>
+        </table>
+        <p class="sub">Grain: Material × Customer × Country × Month. 167 series, 3,000 rows. All customers and products are fictional sample data.</p>
+      </div>
+    </section>
+
+    <footer class="tabs" id="pageTabs">
+      <button data-page="overview" class="on">Overview</button>
+      <button data-page="writeback">Forecast writeback</button>
+      <button data-page="comments">Comments &amp; audit</button>
+      <button data-page="model">Data model</button>
+      <span class="spacer"></span>
+      <div class="seg unit" id="unitSeg" title="Measure"><button data-v="kg" class="on">kg</button><button data-v="eur">EUR</button></div>
+    </footer>
+  </main>
+
+  <!-- Detail / writeback pane -->
+  <aside class="drawer" id="drawer" aria-hidden="true">
+    <div class="drawer-h">
+      <div><div class="eyebrow" id="dEyebrow"></div><h3 id="dTitle"></h3><div class="sub" id="dSub"></div></div>
+      <button class="x" id="drawerClose" aria-label="Close">✕</button>
+    </div>
+    <div class="drawer-b" id="drawerBody"></div>
+  </aside>
+</div>
+
+<!-- Bulk modal -->
+<div class="modal" id="bulkModal" hidden>
+  <div class="modal-card">
+    <h3>Bulk adjust forecast</h3>
+    <p class="sub" id="bulkScope"></p>
+    <div class="form-row"><label>From</label><select id="bulkFrom"></select><label>To</label><select id="bulkTo"></select></div>
+    <div class="form-row"><label>Change %</label><input id="bulkPct" type="number" step="0.5" value="5"></div>
+    <div class="form-row"><label>Reason</label><input id="bulkNote" type="text" placeholder="e.g. Market share gain after competitor exit"></div>
+    <div class="modal-actions"><button class="btn" id="bulkCancel">Cancel</button><button class="btn primary" id="bulkApply">Apply &amp; write back</button></div>
+  </div>
+</div>
+
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<div id="loading" class="loading"><div class="spinner"></div><div>Loading demand plan from Supabase…</div></div>
+
+<script src="vendor/echarts.min.js"></script>
+<script src="config.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
